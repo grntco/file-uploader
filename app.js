@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
-
+const path = require("node:path");
+const passport = require("./auth/passport-config");
 const PORT = process.env.PORT || 3000;
 const sessionConfig = require("./auth/session-config");
 
