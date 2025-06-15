@@ -1,5 +1,5 @@
 const session = require("express-session");
-const prisma = require("../prisma");
+const prisma = require("../../prisma/prisma-client");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 
 // Initialize prisma client in a separate file
