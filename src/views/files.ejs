@@ -13,7 +13,8 @@
 <body>
     <%- include('./partials/header.ejs')%>
         <main>
-            <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %></h2>
+            <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %>
+            </h2>
             <div class="container">
                 <nav class="contents-nav">
                     <a href="/files">Files</a>
@@ -29,15 +30,19 @@
                         <tr>
                             <th>File name</th>
                             <th>Uploaded on</th>
+                            <th>Last modified</th>
                             <th>Found in</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>File name</td>
-                            <td>Random date</td>
-                            <td>Folder name</td>
-                        </tr>
+                        <% locals.files.forEach((file) => { %>
+                            <tr>
+                                <td><%= file.name %></td>
+                                <td><%= file.createdAt %></td>
+                                <td><%= file.updatedAt %></td>
+                                <td>Folder name</td>
+                            </tr>
+                        <% }); %>
                     </tbody>
                 </table>
             </div>

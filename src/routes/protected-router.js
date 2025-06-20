@@ -11,5 +11,9 @@ protectedRouter.get("/", (req, res, next) =>
 );
 
 protectedRouter.get("/files", fileController.filesGet);
+protectedRouter.get("/files/upload", fileController.uploadFilesGet);
+
+// POSTS
+protectedRouter.post("/files/upload", fileController.uploadFilesPost);
 
 module.exports = protectedRouter;
