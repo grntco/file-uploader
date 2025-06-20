@@ -5,7 +5,7 @@ const path = require("node:path");
 const fsPromises = require("fs").promises;
 const { format } = require("date-fns");
 
-const filesGet = async (req, res, next) => {
+const allFilesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
     where: {
       userId: req.user.id,
@@ -17,8 +17,8 @@ const filesGet = async (req, res, next) => {
     files.map(async (file) => {
       const formatted = {
         ...file,
-        createdAt: format(new Date(file.createdAt), "PPp"),
-        updatedAt: format(new Date(file.updatedAt), "PPp"),
+        createdAt: format(new Date(file.createdAt), "PP"),
+        updatedAt: format(new Date(file.updatedAt), "PP"),
       };
 
       if (file.folderId) {
@@ -57,6 +57,7 @@ const uploadFilesPost = [
       const newFile = await prisma.file.create({
         data: {
           name: req.file.originalname,
+          extension: req.file.mimetype,
           userId: req.user.id,
         },
       });
@@ -70,7 +71,7 @@ const uploadFilesPost = [
 ];
 
 module.exports = {
-  filesGet,
+  allFilesGet,
   uploadFilesGet,
   uploadFilesPost,
 };

@@ -37,23 +37,25 @@ model User {
 model File {
   id        Int      @id @default(autoincrement())
   name      String
-  extension String?  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  extension String?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   folderId  Int?
   folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("file")
 }
 
 model Folder {
-  id     Int    @id @default(autoincrement())
-  name   String
-  userId Int
-  user   User   @relation(fields: [userId], references: [id])
-  files  File[]
+  id        Int      @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  files     File[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@map("folder")
 }

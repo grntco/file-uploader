@@ -28,26 +28,26 @@
                 <table class="contents-table">
                     <thead>
                         <tr>
-                            <th>File name</th>
+                            <th>Folder name</th>
                             <th>Uploaded on</th>
                             <th>Last modified</th>
-                            <th>Located in folder</th>
+                            <th>Files count</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% locals.files.forEach((file)=> { %>
+                        <% locals.folders.forEach((folder)=> { %>
                             <tr>
                                 <td>
-                                    <%= file.name %>
+                                    <%= folder.name %>
                                 </td>
                                 <td>
-                                    <%= file.createdAt %>
+                                    <%= folder.createdAt %>
                                 </td>
                                 <td>
-                                    <%= file.updatedAt %>
+                                    <%= folder.updatedAt %>
                                 </td>
                                 <td>
-                                    <%= file.folderName %>
+                                    # for now
                                 </td>
                             </tr>
                             <% }); %>
