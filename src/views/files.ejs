@@ -31,18 +31,26 @@
                             <th>File name</th>
                             <th>Uploaded on</th>
                             <th>Last modified</th>
-                            <th>Found in</th>
+                            <th>Located in folder</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% locals.files.forEach((file) => { %>
+                        <% locals.files.forEach((file)=> { %>
                             <tr>
-                                <td><%= file.name %></td>
-                                <td><%= file.createdAt %></td>
-                                <td><%= file.updatedAt %></td>
-                                <td>Folder name</td>
+                                <td>
+                                    <%= file.name %>
+                                </td>
+                                <td>
+                                    <%= file.createdAt %>
+                                </td>
+                                <td>
+                                    <%= file.updatedAt %>
+                                </td>
+                                <td>
+                                    <%= file.folderName %>
+                                </td>
                             </tr>
-                        <% }); %>
+                            <% }); %>
                     </tbody>
                 </table>
             </div>

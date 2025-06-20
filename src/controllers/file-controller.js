@@ -1,6 +1,9 @@
 const multer = require("multer");
 const upload = multer({ dest: "./src/uploads/" });
 const prisma = require("../../prisma/prisma-client");
+const path = require("node:path");
+const fsPromises = require("fs").promises;
+const { format } = require("date-fns");
 
 const filesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
@@ -9,9 +12,28 @@ const filesGet = async (req, res, next) => {
     },
   });
 
-  console.log(files);
+  // Format the files with easy-to-read dates and attach folders
+  const formattedFiles = await Promise.all(
+    files.map(async (file) => {
+      const formatted = {
+        ...file,
+        createdAt: format(new Date(file.createdAt), "PPp"),
+        updatedAt: format(new Date(file.updatedAt), "PPp"),
+      };
 
-  res.render("files", { title: "All Files", files: files });
+      if (file.folderId) {
+        const folder = await prisma.folder.findFirst({
+          where: { id: file.folderId },
+        });
+        formatted.folderId = folder?.id;
+        formatted.folderName = folder?.name;
+      }
+
+      return formatted;
+    })
+  );
+
+  res.render("files", { title: "All Files", files: formattedFiles });
 };
 
 const uploadFilesGet = (req, res, next) => {
@@ -21,7 +43,17 @@ const uploadFilesGet = (req, res, next) => {
 const uploadFilesPost = [
   upload.single("uploaded_file"),
   async (req, res, next) => {
-    if (req.file) {
+    if (!req.file) {
+      console.log("No file uploaded");
+      return res.redirect("/files");
+    }
+
+    const oldPath = req.file.path;
+    const newPath = path.join(req.file.destination, req.file.originalname);
+
+    try {
+      await fsPromises.rename(oldPath, newPath);
+
       const newFile = await prisma.file.create({
         data: {
           name: req.file.originalname,
@@ -30,10 +62,10 @@ const uploadFilesPost = [
       });
 
       console.log(newFile);
-    } else {
-      console.log("no file uploaded");
+      res.redirect("/files");
+    } catch (err) {
+      next(err);
     }
-    res.redirect("/files");
   },
 ];
 
