@@ -1,0 +1,12 @@
+<% if (errors && errors.length > 0) {%>
+    <div class="form-errors-container">
+        <h4>Please correct the following errors:</h4>
+        <ul class="form-errors-list">
+        <% errors.map((error)=> { %>
+            <li class="form-error-item">
+                <%= error.msg %>
+            </li>
+        <% }); %>
+        </ul>
+    </div>
+<% } %>
