@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>
+        <%= locals.title %> | File Uploader
+    </title>
+</head>
+
+<body>
+    <%- include('./partials/header.ejs')%>
+        <main>
+            <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %></h2>
+            <div class="container">
+                <nav class="contents-nav">
+                    <a href="/files">Files</a>
+                    <a href="/folders">Folders</a>
+                    <button>New</button>
+                    <div>
+                        <a href="/files/create">Create Folder</a>
+                        <a href="/files/upload">Upload File</a>
+                    </div>
+                </nav>
+                <table class="contents-table">
+                    <thead>
+                        <tr>
+                            <th>File name</th>
+                            <th>Uploaded on</th>
+                            <th>Found in</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>File name</td>
+                            <td>Random date</td>
+                            <td>Folder name</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+        <%- include('./partials/footer.ejs')%>
+</body>
+
+</html>

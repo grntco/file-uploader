@@ -14,10 +14,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(passport.session());
 
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
+// locals
+const setLocals = require("./src/middleware/locals");
+app.use(setLocals);
+// app.use((req, res, next) => {
+//   res.locals.currentUser = req.user;
+//   next();
+// });
 
 // ROUTES
 // Public router
