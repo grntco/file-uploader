@@ -18,13 +18,20 @@
 
   --blue: #42a5f5;
   --blue-hover: #2196f3;
+  --red: #ef5350;
 }
 
 body {
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   background-color: var(--primary-bg-color);
   color: var(--primary-txt-color);
   font-family: var(--font-roboto);
+}
+
+main {
+  flex-grow: 1;
 }
 
 header {
@@ -33,6 +40,43 @@ header {
   justify-content: center;
   height: 4rem;
   border-bottom: var(--border);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-size: 1rem;
+  font-family: var(--font-roboto);
+  color: var(--btn-txt-color);
+  background-color: var(--btn-bg-color);
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: var(--btn-bg-color-hover);
+}
+
+.btn.blue {
+  background-color: var(--blue);
+  color: var(--primary-txt-color);
+}
+
+.btn.blue:hover {
+  background-color: var(--blue-hover);
 }
 
 .main-nav {
@@ -66,10 +110,112 @@ header {
 .container {
   margin: 0 auto;
   max-width: 1000px;
+  height: 100%;
 }
 
 .flex-spacer {
   flex-grow: 1;
+}
+
+/* Account Forms */
+.form-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-errors-container {
+  min-width: 600px;
+  margin: 1rem 0rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 2rem;
+}
+
+.form-errors-list {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.account-form {
+  max-width: 600px;
+  min-height: 600px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+  border-radius: 2rem;
+  border: var(--border);
+}
+
+.account-form .form-divider {
+  padding-bottom: 1rem;
+  border-bottom: var(--border);
+}
+
+.account-form h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.account-form label {
+  margin: 1rem 0rem 0.25rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  position: relative;
+}
+
+.account-form label span {
+  position: absolute;
+  top: -4px;
+  left: -8px;
+  color: var(--red);
+}
+
+.account-form input {
+  appearance: none;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  font-family: var(--font-roboto);
+  color: var(--primary-txt-color);
+  background-color: var(--secondary-bg-color);
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--secondary-bg-color);
+  border-radius: 2rem;
+}
+
+.account-form input:focus {
+  border-color: var(--blue-hover);
+}
+
+.account-form .btn {
+  margin: 1rem 0rem;
+  align-self: center;
+}
+
+.account-form .form-other {
+  text-align: center;
+  color: var(--secondary-txt-color);
+}
+
+.account-form .form-other a {
+  color: var(--secondary-txt-color);
+}
+
+.account-form .form-other a:hover {
+  color: var(--primary-txt-color);
 }
 
 .hero {
@@ -79,7 +225,6 @@ header {
 
 .hero h2 {
   font-size: 2rem;
-  font-weight: 600;
 }
 
 .hero p {
@@ -173,16 +318,12 @@ header {
 .contents-table {
   margin-top: 1rem;
   width: 100%;
-  /* max-width: 1000px;
-  margin: 0 auto; */
   border-collapse: collapse;
-  /* border: var(--border); */
 }
 
 .contents-table tr {
   border-bottom: var(--border);
   position: relative;
-  /* border-bottom: 1px solid blue; */
 }
 
 .contents-table tr:hover td {
