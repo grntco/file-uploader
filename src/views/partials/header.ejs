@@ -1,8 +1,9 @@
 <header>
     <nav class="main-nav">
-        <a href="/" class="nav-link">File Uploader</a>
+        <a href="/" class="logo-link"><img src="icons/upload.svg" alt="upload icon" class="icon"> File Uploader</a>
         <% if (currentUser) { %>
-        <a href="/logout" class="nav-link">Logout</a>
-        <% } %>
+            <a href="/logout" class="nav-link blue">Logout <img src="icons/log-out.svg" alt="logout icon"
+                    class="icon"></a>
+            <% } %>
     </nav>
 </header>

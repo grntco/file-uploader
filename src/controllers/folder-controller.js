@@ -5,6 +5,8 @@ const allFoldersGet = async (req, res, next) => {
     where: { userId: req.user.id },
   });
 
+//   const formattedFolders = folders.map(folder)
+
   res.render("folders", { title: "All Folders", folders });
 };
 

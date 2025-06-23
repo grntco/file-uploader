@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
     <title>
         <%= locals.title %> | File Uploader
     </title>
@@ -13,21 +17,31 @@
 <body>
     <%- include('./partials/header.ejs')%>
         <main>
-            <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %>
-            </h2>
+
             <div class="container">
+                <div class="hero">
+                    <h2>Welcome, <%= currentUser.firstName + ' ' + currentUser.lastName %>
+                    </h2>
+                    <p>Ready to store some files?</p>
+                </div>
+                <form class="searchbar">
+                    <button type="submit"><img src="icons/search.svg" alt="search magnifying glass icon" class="icon"
+                            title="Search"></button>
+                    <input type="text" class="" placeholder="Search files">
+                </form>
                 <nav class="contents-nav">
-                    <a href="/files">Files</a>
-                    <a href="/folders">Folders</a>
-                    <button>New</button>
-                    <div>
-                        <a href="/folders/create">Create Folder</a>
-                        <a href="/files/upload">Upload File</a>
-                    </div>
+                    <a href="/files" class="nav-link">Files</a>
+                    <a href="/folders" class="nav-link">Folders</a>
+                    <div class="flex-spacer"></div>
+                    <a href="/folders/create" class="nav-link blue"><img src="icons/folder-plus.svg"
+                            alt="add folder icon" class="icon">Create Folder</a>
+                    <a href="/files/upload" class="nav-link blue"><img src="icons/file-plus.svg" alt="add file icon"
+                            class="icon">Upload File</a>
                 </nav>
                 <table class="contents-table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>File name</th>
                             <th>Uploaded on</th>
                             <th>Last modified</th>
@@ -37,7 +51,11 @@
                     <tbody>
                         <% locals.files.forEach((file)=> { %>
                             <tr>
+                                <td class="file-icon-cell">
+                                    <img src="<%= file.icon %>" alt="image icon" class="icon">
+                                </td>
                                 <td>
+                                    <a href="/files/<%= file.id %>"></a>
                                     <%= file.name %>
                                 </td>
                                 <td>

@@ -4,6 +4,7 @@ const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
 const fsPromises = require("fs").promises;
 const { format } = require("date-fns");
+const getFileIcon = require("../utils/get-file-icon");
 
 const allFilesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
@@ -19,6 +20,7 @@ const allFilesGet = async (req, res, next) => {
         ...file,
         createdAt: format(new Date(file.createdAt), "PP"),
         updatedAt: format(new Date(file.updatedAt), "PP"),
+        icon: getFileIcon(file.mimeType),
       };
 
       if (file.folderId) {
@@ -57,7 +59,7 @@ const uploadFilesPost = [
       const newFile = await prisma.file.create({
         data: {
           name: req.file.originalname,
-          extension: req.file.mimetype,
+          mimeType: req.file.mimetype,
           userId: req.user.id,
         },
       });
