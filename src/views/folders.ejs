@@ -1,34 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <title>
-        <%= locals.title %> | File Uploader
-    </title>
-</head>
-
-<body>
-    <%- include('./partials/header.ejs')%>
-        <main>
-            <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %>
-            </h2>
-            <div class="container">
-                <nav class="contents-nav">
-                    <a href="/files">Files</a>
-                    <a href="/folders">Folders</a>
-                    <button>New</button>
-                    <div>
-                        <a href="/folders/create">Create Folder</a>
-                        <a href="/files/upload">Upload File</a>
-                    </div>
-                </nav>
+<%- include('./partials/header.ejs')%>
+    <main>
+        <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %>
+        </h2>
+        <div class="container">
+            <%- include('./partials/contents-nav.ejs') %>
                 <table class="contents-table">
                     <thead>
                         <tr>
@@ -57,9 +32,6 @@
                             <% }); %>
                     </tbody>
                 </table>
-            </div>
-        </main>
-        <%- include('./partials/footer.ejs')%>
-</body>
-
-</html>
+        </div>
+    </main>
+    <%- include('./partials/footer.ejs')%>

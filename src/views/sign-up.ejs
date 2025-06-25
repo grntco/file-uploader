@@ -1,52 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('./partials/header.ejs')%>
+    <main>
+        <div class="container">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <title>
-        <%= locals.title %> | File Uploader
-    </title>
-</head>
-
-<body>
-    <%- include('./partials/header.ejs')%>
-        <main>
-            <div class="container">
-
-                <div class="form-container">
-                    <%- include('./partials/alerts.ejs') %>
-                        <form action="/sign-up" method="POST" class="account-form" autocomplete="off"
-                            novalidate>
-                            <h1 class="form-title">Create Account</h1>
-                            <div class="form-divider"></div>
-                            <label for="firstName"><span>*</span>First Name</label>
-                            <input type="text" id="firstName" name="firstName" value="<%= locals.formData?.firstName %>"
-                                placeholder="ex. John" required>
-                            <label for="lastName"><span>*</span>Last Name</label>
-                            <input type="text" id="lastName" name="lastName" value="<%= locals.formData?.lastName %>"
-                                placeholder="ex. Doe" required>
-                            <label for="email"><span>*</span>Email</label>
-                            <input type="email" id="email" name="email" value="<%= locals.formData?.email %>"
-                                placeholder="ex. johndoe@example.com" required>
-                            <label for="password"><span>*</span>Password</label>
-                            <input type="password" id="password" name="password"
-                                placeholder="req: min. 8 characters, incl. 1 uppercase, 1 number, 1 symbol" required>
-                            <label for="confirmPassword"><span>*</span>Confirm Password</label>
-                            <input type="password" id="confirmPassword" name="confirmPassword" required>
-                            <div class="form-divider"></div>
-                            <button type="submit" class="btn blue">Create Account</button>
-                            <p class="form-other">Already have an account? <a href="/login">Login</a>.</p>
-                        </form>
-                </div>
+            <div class="form-container">
+                <%- include('./partials/alerts.ejs') %>
+                    <form action="/sign-up" method="POST" class="account-form" autocomplete="off" novalidate>
+                        <h1 class="form-title">Create Account</h1>
+                        <div class="form-divider"></div>
+                        <label for="firstName"><span>*</span>First Name</label>
+                        <input type="text" id="firstName" name="firstName" value="<%= locals.formData?.firstName %>"
+                            placeholder="ex. John" required>
+                        <label for="lastName"><span>*</span>Last Name</label>
+                        <input type="text" id="lastName" name="lastName" value="<%= locals.formData?.lastName %>"
+                            placeholder="ex. Doe" required>
+                        <label for="email"><span>*</span>Email</label>
+                        <input type="email" id="email" name="email" value="<%= locals.formData?.email %>"
+                            placeholder="ex. johndoe@example.com" required>
+                        <label for="password"><span>*</span>Password</label>
+                        <input type="password" id="password" name="password"
+                            placeholder="req: min. 8 characters, incl. 1 uppercase, 1 number, 1 symbol" required>
+                        <label for="confirmPassword"><span>*</span>Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <div class="form-divider"></div>
+                        <button type="submit" class="btn blue">Create Account</button>
+                        <p class="form-other">Already have an account? <a href="/login">Login</a>.</p>
+                    </form>
             </div>
-        </main>
-        <%- include('./partials/footer.ejs')%>
-</body>
-
-</html>
+        </div>
+    </main>
+    <%- include('./partials/footer.ejs')%>

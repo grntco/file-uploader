@@ -1,35 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <title>
-        <%= locals.title %> | File Uploader
-    </title>
-</head>
-
-<body>
-    <%- include('./partials/header.ejs')%>
-        <main>
-            <div class="container">
-                <div class="home-hero">
-                    <img src="icons/upload.svg" alt="upload icon" class="icon">
-                    <h1>File Uploader</h1>
-                    <p>One place for all your files</p>
-                    <div class="btns-container">
-                        <a href="/sign-up" class="btn blue">Sign Up</a>
-                        <a href="/login" class="btn">Login</a>
-                    </div>
+<%- include('./partials/header.ejs')%>
+    <main>
+        <div class="container">
+            <div class="home-hero">
+                <img src="icons/upload.svg" alt="upload icon" class="icon">
+                <h1>File Uploader</h1>
+                <p>One place for all your files</p>
+                <div class="btns-container">
+                    <a href="/sign-up" class="btn blue">Sign Up</a>
+                    <a href="/login" class="btn">Login</a>
                 </div>
             </div>
-        </main>
-        <%- include('./partials/footer.ejs')%>
-</body>
-
-</html>
+        </div>
+    </main>
+    <%- include('./partials/footer.ejs')%>

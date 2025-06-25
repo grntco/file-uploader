@@ -1,25 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
-    <title>
-        <%= locals.title %> | File Uploader
-    </title>
-</head>
-
-<body>
-    <%- include('./partials/header.ejs')%>
-        <main>
-            Folder creation page
-            <form action="/folders/create" method="POST">
-                <input type="text" name="name" placeholder="Enter folder name">
-                <button type="submit">Submit</button>
-            </form>
-        </main>
-        <%- include('./partials/footer.ejs')%>
-</body>
-
-</html>
+<%- include('./partials/header.ejs')%>
+    <main>
+        Folder creation page
+        <form action="/folders/create" method="POST">
+            <input type="text" name="name" placeholder="Enter folder name">
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    <%- include('./partials/footer.ejs')%>
