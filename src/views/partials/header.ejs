@@ -4,6 +4,9 @@
         <% if (currentUser) { %>
             <a href="/logout" class="nav-link blue">Logout <img src="icons/log-out.svg" alt="logout icon"
                     class="icon"></a>
-            <% } %>
+            <% } else { %>
+                <a href="/login" class="nav-link blue">Login <img src="icons/log-in.svg" alt="login icon"
+                        class="icon"></a>
+                <% } %>
     </nav>
 </header>

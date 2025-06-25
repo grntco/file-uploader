@@ -23,14 +23,9 @@ app.use(setLocals);
 // });
 
 // ROUTES
-// Public router
 const publicRouter = require("./src/routes/public-router");
 const protectedRouter = require("./src/routes/protected-router");
 app.use(publicRouter);
 app.use(protectedRouter);
-// Auth Router
-// app.get("/", (req, res, next) => {
-//   res.render("index", { title: "Home" });
-// });
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

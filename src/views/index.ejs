@@ -17,10 +17,17 @@
 <body>
     <%- include('./partials/header.ejs')%>
         <main>
-            Links:
-            <a href="/files">Files</a>
-            <a href="/folders">Folders</a>
-            <a href="/logout">Logout</a>
+            <div class="container">
+                <div class="home-hero">
+                    <img src="icons/upload.svg" alt="upload icon" class="icon">
+                    <h1>File Uploader</h1>
+                    <p>One place for all your files</p>
+                    <div class="btns-container">
+                        <a href="/sign-up" class="btn blue">Sign Up</a>
+                        <a href="/login" class="btn">Login</a>
+                    </div>
+                </div>
+            </div>
         </main>
         <%- include('./partials/footer.ejs')%>
 </body>

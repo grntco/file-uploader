@@ -74,7 +74,7 @@ const loginPost = [
 
     passport.authenticate("local", {
       failureRedirect: "/login",
-      successRedirect: "/",
+      successRedirect: "/files",
       // failureFlash: true,
     })(req, res, next);
   },

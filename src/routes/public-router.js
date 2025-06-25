@@ -4,6 +4,9 @@ const { Router } = require("express");
 const publicRouter = Router();
 
 // GETS
+publicRouter.get("/", (req, res, next) =>
+  res.render("index", { title: "Home" })
+);
 publicRouter.get("/sign-up", userController.signUpGet);
 publicRouter.get("/login", userController.loginGet);
 // TODO: is the logout technically not public?

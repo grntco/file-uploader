@@ -34,12 +34,63 @@ main {
   flex-grow: 1;
 }
 
+/* HEADER */
 header {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 4rem;
   border-bottom: var(--border);
+}
+
+.main-nav {
+  padding: 0rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.logo-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary-txt-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.logo-link img.icon {
+  transform: translateY(-2px);
+}
+
+/* FOOTER */
+footer {
+  border-top: var(--border);
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer .footer-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-txt-color);
+  text-decoration: none;
+}
+
+footer .footer-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: var(--primary-txt-color);
+}
+
+footer .footer-link img.icon {
+  transform: translateY(-2px);
 }
 
 h1,
@@ -79,28 +130,6 @@ h6 {
   background-color: var(--blue-hover);
 }
 
-.main-nav {
-  display: flex;
-  justify-content: space-between;
-  flex-grow: 1;
-  width: 100%;
-  max-width: 1000px;
-}
-
-.logo-link {
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  color: var(--primary-txt-color);
-  font-size: 1.2rem;
-  font-weight: 600;
-}
-
-.logo-link img.icon {
-  transform: translateY(-2px);
-}
-
 .icon {
   height: 1.4rem;
   filter: invert(100%) sepia(2%) saturate(2395%) hue-rotate(177deg)
@@ -108,17 +137,45 @@ h6 {
 }
 
 .container {
+  height: 100%;
   margin: 0 auto;
   max-width: 1000px;
-  height: 100%;
+  overflow: hidden;
 }
 
 .flex-spacer {
   flex-grow: 1;
 }
 
+.home-hero {
+  margin-top: 25%;
+  text-align: center;
+}
+
+.home-hero img.icon {
+  height: 5rem;
+}
+
+.home-hero h1 {
+  margin-top: 0.5rem;
+  font-size: clamp(1.5rem, 4vw, 5rem);
+}
+
+.home-hero p {
+  margin: 1rem 0rem 2rem;
+  font-size: 1.3rem;
+  color: var(--secondary-txt-color);
+}
+
+.home-hero .btns-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
 /* Account Forms */
 .form-container {
+  flex-grow: 1;
   height: 100%;
   display: flex;
   flex-direction: column;
