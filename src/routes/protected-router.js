@@ -7,13 +7,13 @@ const protectedRouter = Router();
 protectedRouter.use(isAuth);
 // GETS
 protectedRouter.get("/files", fileController.allFilesGet);
-protectedRouter.get("/files/upload", fileController.uploadFilesGet);
+// protectedRouter.get("/upload", fileController.uploadFilesGet);
 
 protectedRouter.get("/folders", folderController.allFoldersGet);
 protectedRouter.get("/folders/create", folderController.createFolderGet);
 
 // POSTS
-protectedRouter.post("/files/upload", fileController.uploadFilesPost);
+protectedRouter.post("/upload", fileController.uploadFilesPost);
 protectedRouter.post("/folders/create", folderController.createFolderPost);
 
 module.exports = protectedRouter;

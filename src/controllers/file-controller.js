@@ -11,6 +11,14 @@ const allFilesGet = async (req, res, next) => {
     where: {
       userId: req.user.id,
     },
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
   });
 
   // Format the files with easy-to-read dates and attach folders
@@ -35,7 +43,11 @@ const allFilesGet = async (req, res, next) => {
     })
   );
 
-  res.render("files", { title: "All Files", files: formattedFiles, errors: [] });
+  res.render("files", {
+    title: "All Files",
+    files: formattedFiles,
+    errors: [],
+  });
 };
 
 const uploadFilesGet = (req, res, next) => {
@@ -43,30 +55,42 @@ const uploadFilesGet = (req, res, next) => {
 };
 
 const uploadFilesPost = [
-  upload.single("uploaded_file"),
+  upload.array("uploaded_files"),
   async (req, res, next) => {
-    if (!req.file) {
-      console.log("No file uploaded");
+    const files = req.files;
+
+    if (!files || files.length === 0) {
+      console.log("No files uploaded");
       return res.redirect("/files");
     }
 
-    const oldPath = req.file.path;
-    const newPath = path.join(req.file.destination, req.file.originalname);
-
     try {
-      await fsPromises.rename(oldPath, newPath);
+      // Process all files in parallel
+      const processedFiles = await Promise.all(
+        files.map(async (file) => {
+          const oldPath = file.path;
+          const newPath = path.join(file.destination, file.originalname);
 
-      const newFile = await prisma.file.create({
-        data: {
-          name: req.file.originalname,
-          mimeType: req.file.mimetype,
-          userId: req.user.id,
-        },
-      });
+          // Rename file
+          await fsPromises.rename(oldPath, newPath);
 
-      console.log(newFile);
+          // Create database record
+          const newFile = await prisma.file.create({
+            data: {
+              name: file.originalname,
+              mimeType: file.mimetype,
+              userId: req.user.id, // Assuming user is attached to req
+            },
+          });
+
+          return newFile;
+        })
+      );
+
+      console.log(`Successfully uploaded ${processedFiles.length} files`);
       res.redirect("/files");
     } catch (err) {
+      console.error("Error processing files:", err);
       next(err);
     }
   },

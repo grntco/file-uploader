@@ -15,10 +15,12 @@
                 <%- include('./partials/contents-nav.ejs') %>
                     <form id="upload-form" class="upload-form hidden" action="/upload" method="POST"
                         enctype="multipart/form-data">
-                        <label for="uploaded-file">
+                        <label id="upload-label" for="upload-input">
                             <span>Drop or select file</span>
+                            <button id="upload-cancel-btn" class="btn">Cancel</button>
+                            <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
                         </label>
-                        <input type="file" id="uploaded-file" name="uploaded_file" accept="" hidden required>
+                        <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
                     </form>
                     <table class="contents-table">
                         <thead>
