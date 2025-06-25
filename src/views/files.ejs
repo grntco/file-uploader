@@ -17,16 +17,19 @@
                         enctype="multipart/form-data">
                         <label id="upload-label" for="upload-input">
                             <span>Drop or select file</span>
-                            <button id="upload-cancel-btn" class="btn">Cancel</button>
-                            <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
+                            <div class="btns-container">
+                                <button id="upload-cancel-btn" class="btn">Cancel</button>
+                                <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
+                            </div>
                         </label>
                         <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
                     </form>
                     <table class="contents-table">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>File name</th>
+                                <th>Type</th>
+                                <th>Name</th>
+                                <th>Size</th>
                                 <th>Uploaded on</th>
                                 <th>Last modified</th>
                                 <th>Located in folder</th>
@@ -36,11 +39,14 @@
                             <% locals.files.forEach((file)=> { %>
                                 <tr>
                                     <td class="file-icon-cell">
+                                        <a href="/files/<%= file.id %>"></a>
                                         <img src="<%= file.icon %>" alt="image icon" class="icon">
                                     </td>
                                     <td>
-                                        <a href="/files/<%= file.id %>"></a>
                                         <%= file.name %>
+                                    </td>
+                                    <td>
+                                        <%= file.size %>
                                     </td>
                                     <td>
                                         <%= file.createdAt %>

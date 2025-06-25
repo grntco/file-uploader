@@ -10,6 +10,8 @@ const app = express();
 app.set("views", path.join(__dirname, "src/views"));
 app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/shared", express.static(path.join(__dirname, "shared")));
+
 app.use(sessionConfig);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

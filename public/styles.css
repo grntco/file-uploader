@@ -442,6 +442,10 @@ h6 {
   display: none;
 }
 
+.upload-form .btns-container {
+  display: flex;
+}
+
 .upload-form label.green {
   color: var(--green);
   border-color: var(--green);
@@ -456,7 +460,7 @@ h6 {
 }
 
 .contents-table {
-  margin-top: 1rem;
+  margin: 1rem 0rem 3rem;
   width: 100%;
   border-collapse: collapse;
 }

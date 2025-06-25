@@ -38,6 +38,7 @@ model File {
   id        Int      @id @default(autoincrement())
   name      String
   mimeType  String?
+  size      BigInt?
   userId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   folderId  Int?

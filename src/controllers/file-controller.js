@@ -4,6 +4,7 @@ const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
 const fsPromises = require("fs").promises;
 const { format } = require("date-fns");
+const { formatBytes } = require("../../shared/utils.js");
 const getFileIcon = require("../utils/get-file-icon");
 
 const allFilesGet = async (req, res, next) => {
@@ -28,6 +29,7 @@ const allFilesGet = async (req, res, next) => {
         ...file,
         createdAt: format(new Date(file.createdAt), "PP"),
         updatedAt: format(new Date(file.updatedAt), "PP"),
+        size: formatBytes(Number(file.size)),
         icon: getFileIcon(file.mimeType),
       };
 
@@ -79,6 +81,7 @@ const uploadFilesPost = [
             data: {
               name: file.originalname,
               mimeType: file.mimetype,
+              size: file.size,
               userId: req.user.id, // Assuming user is attached to req
             },
           });
