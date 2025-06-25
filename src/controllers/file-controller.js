@@ -35,7 +35,7 @@ const allFilesGet = async (req, res, next) => {
     })
   );
 
-  res.render("files", { title: "All Files", files: formattedFiles });
+  res.render("files", { title: "All Files", files: formattedFiles, errors: [] });
 };
 
 const uploadFilesGet = (req, res, next) => {

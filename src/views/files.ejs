@@ -15,63 +15,63 @@
 </head>
 
 <body>
-    <%- include('./partials/header.ejs')%>
+    <%- include('./partials/header.ejs') %>
         <main>
-
-            <div class="container">
-                <div class="hero">
-                    <h2>Welcome, <%= currentUser.firstName + ' ' + currentUser.lastName %>
-                    </h2>
-                    <p>Ready to store some files?</p>
-                </div>
-                <form class="searchbar">
-                    <button type="submit"><img src="icons/search.svg" alt="search magnifying glass icon" class="icon"
-                            title="Search"></button>
-                    <input type="text" class="" placeholder="Search files">
-                </form>
-                <nav class="contents-nav">
-                    <a href="/files" class="nav-link">Files</a>
-                    <a href="/folders" class="nav-link">Folders</a>
-                    <div class="flex-spacer"></div>
-                    <a href="/folders/create" class="nav-link blue"><img src="icons/folder-plus.svg"
-                            alt="add folder icon" class="icon">Create Folder</a>
-                    <a href="/files/upload" class="nav-link blue"><img src="icons/file-plus.svg" alt="add file icon"
-                            class="icon">Upload File</a>
-                </nav>
-                <table class="contents-table">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>File name</th>
-                            <th>Uploaded on</th>
-                            <th>Last modified</th>
-                            <th>Located in folder</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% locals.files.forEach((file)=> { %>
+            <%- include('./partials/alerts.ejs') %>
+                <div class="container">
+                    <div class="hero">
+                        <h2>Welcome, <%= currentUser.firstName + ' ' + currentUser.lastName %>
+                        </h2>
+                        <p>Ready to store some files?</p>
+                    </div>
+                    <form class="searchbar">
+                        <button type="submit"><img src="icons/search.svg" alt="search magnifying glass icon"
+                                class="icon" title="Search"></button>
+                        <input type="text" class="" placeholder="Search files">
+                    </form>
+                    <nav class="contents-nav">
+                        <a href="/files" class="nav-link">Files</a>
+                        <a href="/folders" class="nav-link">Folders</a>
+                        <div class="flex-spacer"></div>
+                        <a href="/folders/create" class="nav-link blue"><img src="icons/folder-plus.svg"
+                                alt="add folder icon" class="icon">Create Folder</a>
+                        <a href="/files/upload" class="nav-link blue"><img src="icons/file-plus.svg" alt="add file icon"
+                                class="icon">Upload File</a>
+                    </nav>
+                    <table class="contents-table">
+                        <thead>
                             <tr>
-                                <td class="file-icon-cell">
-                                    <img src="<%= file.icon %>" alt="image icon" class="icon">
-                                </td>
-                                <td>
-                                    <a href="/files/<%= file.id %>"></a>
-                                    <%= file.name %>
-                                </td>
-                                <td>
-                                    <%= file.createdAt %>
-                                </td>
-                                <td>
-                                    <%= file.updatedAt %>
-                                </td>
-                                <td>
-                                    <%= file.folderName %>
-                                </td>
+                                <th></th>
+                                <th>File name</th>
+                                <th>Uploaded on</th>
+                                <th>Last modified</th>
+                                <th>Located in folder</th>
                             </tr>
-                            <% }); %>
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            <% locals.files.forEach((file)=> { %>
+                                <tr>
+                                    <td class="file-icon-cell">
+                                        <img src="<%= file.icon %>" alt="image icon" class="icon">
+                                    </td>
+                                    <td>
+                                        <a href="/files/<%= file.id %>"></a>
+                                        <%= file.name %>
+                                    </td>
+                                    <td>
+                                        <%= file.createdAt %>
+                                    </td>
+                                    <td>
+                                        <%= file.updatedAt %>
+                                    </td>
+                                    <td>
+                                        <%= file.folderName %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                </div>
         </main>
         <%- include('./partials/footer.ejs')%>
 </body>

@@ -19,6 +19,7 @@
   --blue: #42a5f5;
   --blue-hover: #2196f3;
   --red: #ef5350;
+  --green: #4caf50;
 }
 
 body {
@@ -173,6 +174,37 @@ h6 {
   gap: 1rem;
 }
 
+/* ALERTS */
+.alert {
+  margin: 1rem 0rem;
+  min-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  border: var(--border);
+  border-radius: 2rem;
+}
+
+.alert.red {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.alert.green {
+  text-align: center;
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.alert-errors-list {
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 /* Account Forms */
 .form-container {
   flex-grow: 1;
@@ -181,25 +213,6 @@ h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.form-errors-container {
-  min-width: 600px;
-  margin: 1rem 0rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1rem 2rem;
-  color: var(--red);
-  border: 1px solid var(--red);
-  border-radius: 2rem;
-}
-
-.form-errors-list {
-  margin-left: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .account-form {
@@ -302,7 +315,9 @@ h6 {
 }
 
 .searchbar button {
-  padding: 8px;
+  /* padding: 8px; */
+  height: 2.3rem;
+  width: 2.3rem;
   border-radius: 50%;
   background: none;
   border: none;

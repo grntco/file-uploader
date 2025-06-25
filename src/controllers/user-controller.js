@@ -11,7 +11,10 @@ const signUpGet = (req, res, next) => {
 };
 
 const loginGet = (req, res, next) => {
-  res.render("login", { title: "Login", errors: [] });
+  const flashErrors = req.flash("error");
+  const errors = flashErrors.map((error) => ({ msg: error })); // converts flash errors to be like express-validator errors
+
+  res.render("login", { title: "Login", errors });
 };
 
 const logoutGet = (req, res, next) => {
@@ -19,7 +22,7 @@ const logoutGet = (req, res, next) => {
     if (err) {
       return next(err);
     }
-    // req.flash("success", "You successfully logged out.");
+    req.flash("success", "You successfully logged out.");
     res.redirect("/login");
   });
 };
@@ -39,8 +42,8 @@ const signUpPost = [
 
     try {
       const hashedPassword = await bcrypt.hash(req.body.password, 10);
-      // TODO: probably don't need to assign and log here
-      const newUser = await prisma.user.create({
+
+      await prisma.user.create({
         data: {
           firstName: req.body.firstName,
           lastName: req.body.lastName,
@@ -49,9 +52,7 @@ const signUpPost = [
         },
       });
 
-      console.log(newUser);
-
-      // TODO: perhaps flash some errors or success message
+      req.flash("success", "Thanks for creating an account! Please log in.");
       res.redirect("/login");
     } catch (err) {
       console.error("Sign Up Error: ", err);
@@ -66,7 +67,6 @@ const loginPost = [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-
       return res.status(400).render("login", {
         errors: errors.array(),
       });
@@ -75,7 +75,7 @@ const loginPost = [
     passport.authenticate("local", {
       failureRedirect: "/login",
       successRedirect: "/files",
-      // failureFlash: true,
+      failureFlash: true,
     })(req, res, next);
   },
 ];
