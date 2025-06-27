@@ -542,7 +542,6 @@ h6 {
   display: none;
 }
 
-
 .single-file-info-list {
   margin-top: 1rem;
   list-style-type: none;
@@ -556,6 +555,8 @@ label {
   font-weight: 600;
 }
 
+/* EDIT FILE FORM */
+
 .edit-file-form {
   display: flex;
   flex-direction: column;
@@ -564,6 +565,12 @@ label {
 
 .edit-file-form.hidden {
   display: none;
+}
+
+.edit-file-form h2 {
+  /* font-size: 2rem; */
+  padding-bottom: 0.5rem;
+  border-bottom: var(--border);
 }
 
 .edit-file-form input#fileName {

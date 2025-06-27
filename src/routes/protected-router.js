@@ -16,6 +16,7 @@ protectedRouter.get("/folders/create", folderController.createFolderGet);
 
 // POSTS
 protectedRouter.post("/upload", fileController.uploadFilesPost);
+protectedRouter.post("/files/:id/edit", fileController.singleFileEditPost);
 protectedRouter.post("/folders/create", folderController.createFolderPost);
 
 module.exports = protectedRouter;

@@ -13,12 +13,13 @@
                         <a href="/files/<%= locals.file.id %>/delete" class="btn red">Trash</a>
                     </div>
                     <form id="edit-file-form" class="edit-file-form hidden" action="/files/<%= locals.file.id %>/edit"
-                        method="POST" enctype="multipart/form-data">
-                        <label for="fileName">Edit name:</label>
-                        <input type="text" id="fileName" name="name" placeholder="File name"
+                        method="POST">
+                        <h2>Edit File</h2>
+                        <label for="fileName">Change name</label>
+                        <input type="text" id="fileName" name="name" placeholder="Your file name"
                             value="<%= locals.file.name %>">
-                        <label for="folder">Move to folder:</label>
-                        <select id="folder" name="folder">
+                        <label for="folder">Move to folder</label>
+                        <select id="folder" name="folderId">
                             <% if (!locals.file.folderId) { %>
                                 <option value="" selected>None</option>
                                 <% } %>

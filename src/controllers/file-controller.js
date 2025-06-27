@@ -95,9 +95,40 @@ const uploadFilesPost = [
   },
 ];
 
+const singleFileEditPost = async (req, res, next) => {
+  const fileId = parseInt(req.params.id);
+
+  console.log(fileId);
+  console.log(req.body);
+  console.log(req.headers["content-type"]);
+
+  if (req.body.name || req.body.folderId) {
+    try {
+      const updated = await prisma.file.update({
+        where: {
+          id: fileId,
+        },
+        data: {
+          name: req.body.name,
+          folderId: parseInt(req.body.fileId),
+        },
+      });
+
+      console.log(updated);
+
+      res.redirect(`/files/${fileId}`);
+      // next();
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  }
+};
+
 module.exports = {
   allFilesGet,
   singleFileGet,
   uploadFilesGet,
   uploadFilesPost,
+  singleFileEditPost,
 };
