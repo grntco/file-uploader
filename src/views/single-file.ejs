@@ -1,0 +1,70 @@
+<%- include('./partials/header.ejs')%>
+    <main>
+        <div class="container">
+            <div class="single-file-row">
+                <div class="single-file-col">
+                    <div class="single-file-icon-wrapper">
+                        <img src="<%= locals.file.icon %>" alt="<%= locals.file.icon %>" class="icon">
+                    </div>
+                </div>
+                <div class="single-file-col">
+                    <div class="btns-container">
+                        <button id="edit-file-btn" class="btn">Edit</button>
+                        <a href="/files/<%= locals.file.id %>/delete" class="btn red">Trash</a>
+                    </div>
+                    <form id="edit-file-form" class="edit-file-form hidden" action="/files/<%= locals.file.id %>/edit"
+                        method="POST" enctype="multipart/form-data">
+                        <label for="fileName">Edit name:</label>
+                        <input type="text" id="fileName" name="name" placeholder="File name"
+                            value="<%= locals.file.name %>">
+                        <label for="folder">Move to folder:</label>
+                        <select id="folder" name="folder">
+                            <% if (!locals.file.folderId) { %>
+                                <option value="" selected>None</option>
+                                <% } %>
+                                    <% locals.folders.forEach((folder)=> { %>
+                                        <option <%=folder.id===locals.file.folderId ? 'selected' : '' %> value="<%=
+                                                folder.id %>
+                                                "><%= folder.name %>
+                                        </option>
+                                        <% }); %>
+                        </select>
+                        <div class="btns-container">
+                            <button type="reset" class="btn">Cancel</button>
+                            <button type="submit" class="btn blue">Save Changes</button>
+                        </div>
+                    </form>
+                    <div id="single-file-info" class="single-file-info">
+                        <h1>
+                            <%= locals.file.name %>
+                        </h1>
+
+                        <ul class="single-file-info-list">
+                            <li>
+                                <span class="label">Size: </span>
+                                <%= locals.file.displaySize %>
+                            </li>
+                            <li>
+                                <span class="label">MIME Type: </span>
+                                <%= locals.file.mimeType %>
+                            </li>
+                            <li>
+                                <span class="label">Created: </span>
+                                <%= locals.file.displayCreatedAt %>
+                            </li>
+                            <li>
+                                <span class="label">Last Updated: </span>
+                                <%= locals.file.displayUpdatedAt %>
+                            </li>
+                            <% if (locals.file.folderName) { %>
+                                <li>
+                                    <span class="label">Located in Folder:</span>
+                                    <%= locals.file.folderName %>
+                                </li>
+                                <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <%- include('./partials/footer.ejs')%>

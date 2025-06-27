@@ -19,6 +19,7 @@
   --blue: #42a5f5;
   --blue-hover: #2196f3;
   --red: #ef5350;
+  --red-hover: #f44336;
   --green: #4caf50;
   --green-hover: #43a047;
 }
@@ -145,6 +146,15 @@ h6 {
 
 .btn.green:hover {
   background-color: var(--green-hover);
+}
+
+.btn.red {
+  background-color: var(--red);
+  color: var(--primary-txt-color);
+}
+
+.btn.red:hover {
+  background-color: var(--red-hover);
 }
 
 .icon {
@@ -487,4 +497,169 @@ h6 {
 .contents-table td a {
   position: absolute;
   inset: 0;
+}
+
+/* SINGLE FILE PAGE */
+.single-file-row {
+  display: flex;
+}
+
+.single-file-col {
+  width: 70%;
+  padding: 2rem;
+}
+
+.single-file-col:first-child {
+  width: 30%;
+}
+
+.single-file-col h1 {
+  font-size: 2.5rem;
+}
+
+.single-file-icon-wrapper {
+  min-height: 300px;
+  min-width: 300px;
+  padding: 2rem;
+}
+
+.single-file-icon-wrapper img.icon {
+  height: 100%;
+  width: 100%;
+}
+
+.single-file-col .btns-container {
+  display: flex;
+  /* align-items: flex-end; */
+  justify-content: flex-end;
+}
+
+.single-file-info {
+  display: block;
+}
+
+.single-file-info.hidden {
+  display: none;
+}
+
+
+.single-file-info-list {
+  margin-top: 1rem;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.label,
+label {
+  font-weight: 600;
+}
+
+.edit-file-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.edit-file-form.hidden {
+  display: none;
+}
+
+.edit-file-form input#fileName {
+  margin: 0.5 0rem 2rem;
+  font-size: 2.5rem;
+  font-weight: 600;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-txt-color);
+  font-family: var(--font-roboto);
+  border: 1px solid var(--primary-bg-color);
+  outline: none;
+}
+.edit-file-form input#fileName:focus {
+  border-color: var(--blue-hover);
+}
+
+.edit-file-form select,
+.edit-file-form ::picker(select) {
+  appearance: base-select;
+}
+
+.edit-file-form select {
+  /* border: var(--border); */
+  font-family: var(--font-roboto);
+  color: var(--primary-txt-color);
+  background-color: var(--secondary-bg-color);
+  padding: 1rem 1.5rem;
+  border: 1px solid var(--secondary-bg-color);
+  border-radius: 2rem;
+  transition: rotate 0.4s;
+  cursor: pointer;
+}
+
+.edit-file-form ::picker(select) {
+  border: none;
+  background: none;
+}
+
+.edit-file-form select:hover,
+.edit-file-form select:focus {
+  border: var(--border);
+}
+.edit-file-form select:focus {
+  /* border-color: var(--blue-hover); */
+}
+
+.edit-file-form select::picker-icon {
+  color: #999;
+  transition: 0.3s rotate ease-out;
+}
+
+.edit-file-form select:open::picker-icon {
+  rotate: 180deg;
+}
+
+.edit-file-form select option {
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
+
+  /* border: 2px solid #ddd; */
+  border: var(--border);
+  background: var(--primary-bg-color);
+  color: var(--primary-txt-color);
+  padding: 1rem 1.5rem;
+  /* transition: 0.4s; */
+  /* cursor: pointer; */
+}
+
+.edit-file-form select option:first-of-type {
+  border-radius: 2rem 2rem 0rem 0rem;
+}
+.edit-file-form select option:last-of-type {
+  border-radius: 0rem 0rem 2rem 2rem;
+}
+.edit-file-form select option:not(option:last-of-type) {
+  border-bottom: none;
+}
+.edit-file-form select option:hover {
+  background-color: var(--secondary-bg-color);
+}
+.edit-file-form select option:checked {
+  font-weight: 600;
+  background-color: var(--secondary-bg-color);
+}
+.edit-file-form select option::checkmark {
+  order: 1;
+  margin-left: auto;
+  content: url("/icons/check.svg");
+  height: 1.4rem;
+  filter: invert(100%) sepia(2%) saturate(2395%) hue-rotate(177deg)
+    brightness(117%) contrast(87%);
+}
+
+.edit-file-form .btns-container {
+  margin: 1rem 0rem;
+  display: flex;
+  justify-content: flex-end;
 }

@@ -1,5 +1,5 @@
 const getFileIcon = (mimeType = "") => {
-  const iconsDir = "icons/";
+  const iconsDir = "/icons/";
   let fileIcon = "file-text.svg";
 
   if (mimeType.includes("image")) {

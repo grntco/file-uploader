@@ -3,9 +3,7 @@ const upload = multer({ dest: "./src/uploads/" });
 const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
 const fsPromises = require("fs").promises;
-const { format } = require("date-fns");
-const { formatBytes } = require("../../shared/utils.js");
-const getFileIcon = require("../utils/get-file-icon");
+const formatFileData = require("../utils/format-file-data.js");
 
 const allFilesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
@@ -22,27 +20,8 @@ const allFilesGet = async (req, res, next) => {
     ],
   });
 
-  // Format the files with easy-to-read dates and attach folders
   const formattedFiles = await Promise.all(
-    files.map(async (file) => {
-      const formatted = {
-        ...file,
-        createdAt: format(new Date(file.createdAt), "PP"),
-        updatedAt: format(new Date(file.updatedAt), "PP"),
-        size: formatBytes(Number(file.size)),
-        icon: getFileIcon(file.mimeType),
-      };
-
-      if (file.folderId) {
-        const folder = await prisma.folder.findFirst({
-          where: { id: file.folderId },
-        });
-        formatted.folderId = folder?.id;
-        formatted.folderName = folder?.name;
-      }
-
-      return formatted;
-    })
+    files.map(async (file) => await formatFileData(file))
   );
 
   res.render("files", {
@@ -50,6 +29,22 @@ const allFilesGet = async (req, res, next) => {
     files: formattedFiles,
     errors: [],
   });
+};
+
+const singleFileGet = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  const file = await prisma.file.findUnique({
+    where: {
+      id,
+    },
+  });
+
+  const formattedFile = await formatFileData(file);
+  const folders = await prisma.folder.findMany();
+
+  console.log(formattedFile);
+  res.render("single-file", { title: file.name, file: formattedFile, folders });
 };
 
 const uploadFilesGet = (req, res, next) => {
@@ -77,6 +72,7 @@ const uploadFilesPost = [
           await fsPromises.rename(oldPath, newPath);
 
           // Create database record
+          // TODO: prisma.createMany for multiple files uploaded?
           const newFile = await prisma.file.create({
             data: {
               name: file.originalname,
@@ -101,6 +97,7 @@ const uploadFilesPost = [
 
 module.exports = {
   allFilesGet,
+  singleFileGet,
   uploadFilesGet,
   uploadFilesPost,
 };
