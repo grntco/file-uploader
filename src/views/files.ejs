@@ -1,7 +1,7 @@
 <%- include('./partials/header.ejs') %>
     <main>
-        <%- include('./partials/alerts.ejs') %>
-            <div class="container">
+        <div class="container">
+            <%- include('./partials/alerts.ejs') %>
                 <div class="hero">
                     <h2>Welcome, <%= currentUser.firstName + ' ' + currentUser.lastName %>
                     </h2>
@@ -15,8 +15,7 @@
                 <nav class="btns-nav">
                     <div class="btns-container">
                         <a href="/files" class="btn <%= currentPath === '/files' ? 'active' : '' %>">Files</a>
-                        <a href="/folders"
-                            class="btn <%= currentPath === '/folders' ? 'active' : '' %>">Folders</a>
+                        <a href="/folders" class="btn <%= currentPath === '/folders' ? 'active' : '' %>">Folders</a>
                     </div>
                     <div class="btns-container">
                         <button id="add-folder-btn" class="btn blue"><img src="icons/folder-plus.svg"
@@ -77,6 +76,6 @@
                             <% }); %>
                     </tbody>
                 </table>
-            </div>
+        </div>
     </main>
     <%- include('./partials/footer.ejs')%>

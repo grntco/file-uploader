@@ -98,22 +98,35 @@ const uploadFilesPost = [
 ];
 
 const singleFileEditPost = async (req, res, next) => {
-  // TODO: Need to edit file name in storage!
   const fileId = parseInt(req.params.id);
+  const newFileName = req.body.name;
 
-  if (req.body.name || req.body.folderId) {
+  if (newFileName || req.body.folderId) {
     try {
-      const updated = await prisma.file.update({
-        where: {
-          id: fileId,
-        },
-        data: {
-          name: req.body.name,
-          folderId: parseInt(req.body.folderId),
-        },
+      const file = await prisma.file.findUnique({
+        where: { id: fileId },
+        select: { name: true },
       });
+      const uploadsDir = path.join(__dirname, "../uploads/");
 
-      console.log(updated);
+      if (file) {
+        await fsPromises.rename(
+          path.join(uploadsDir, file.name),
+          path.join(uploadsDir, newFileName)
+        );
+
+        const folderId = parseInt(req.body.folderId) ?? null;
+
+        await prisma.file.update({
+          where: {
+            id: fileId,
+          },
+          data: {
+            name: newFileName,
+            folderId: folderId,
+          },
+        });
+      }
 
       res.redirect(`/files/${fileId}`);
     } catch (err) {
@@ -137,7 +150,7 @@ const deleteFilePost = async (req, res, next) => {
       await fsPromises.unlink(filePath);
       await prisma.file.delete({ where: { id } });
 
-      req.flash("success", "You deleted the file successfully.");
+      req.flash("success", "File successully deleted.");
     } catch (err) {
       console.error(err);
       next();
