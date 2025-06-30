@@ -12,55 +12,71 @@
                             title="Search"></button>
                     <input type="text" class="" placeholder="Search files">
                 </form>
-                <%- include('./partials/contents-nav.ejs') %>
-                    <form id="upload-form" class="upload-form hidden" action="/upload" method="POST"
-                        enctype="multipart/form-data">
-                        <label id="upload-label" for="upload-input">
-                            <span>Drop or select file</span>
-                            <div class="btns-container">
-                                <button id="upload-cancel-btn" class="btn">Cancel</button>
-                                <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
-                            </div>
-                        </label>
-                        <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
-                    </form>
-                    <table class="contents-table">
-                        <thead>
+                <nav class="btns-nav">
+                    <div class="btns-container">
+                        <a href="/files" class="btn <%= currentPath === '/files' ? 'active' : '' %>">Files</a>
+                        <a href="/folders"
+                            class="btn <%= currentPath === '/folders' ? 'active' : '' %>">Folders</a>
+                    </div>
+                    <div class="btns-container">
+                        <button id="add-folder-btn" class="btn blue"><img src="icons/folder-plus.svg"
+                                alt="add folder icon" class="icon">Create Folder</button>
+                        <button id="add-file-btn" class="btn blue"><img src="icons/file-plus.svg" alt="add file icon"
+                                class="icon">Upload File</button>
+                    </div>
+                </nav>
+                <form id="upload-form" class="upload-form hidden" action="/upload" method="POST"
+                    enctype="multipart/form-data">
+                    <label id="upload-label" for="upload-input">
+                        <span>Drop or select file</span>
+                        <div class="btns-container">
+                            <button type="reset" id="upload-cancel-btn" class="btn">Cancel</button>
+                            <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
+                        </div>
+                    </label>
+                    <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
+                </form>
+                <table class="contents-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Uploaded on</th>
+                            <th>Last modified</th>
+                            <th>Located in folder</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% locals.files.forEach((file)=> { %>
                             <tr>
-                                <th>Type</th>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th>Uploaded on</th>
-                                <th>Last modified</th>
-                                <th>Located in folder</th>
+                                <td>
+                                    <a href="/files/<%= file.id %>" class="table-row-link"></a>
+                                    <img src="<%= file.icon %>" alt="image icon" class="icon">
+                                </td>
+                                <td>
+                                    <%= file.name %>
+                                </td>
+                                <td>
+                                    <%= file.displaySize %>
+                                </td>
+                                <td>
+                                    <%= file.displayCreatedAt %>
+                                </td>
+                                <td>
+                                    <%= file.displayUpdatedAt %>
+                                </td>
+                                <td>
+                                    <% if (file.folderId && file.folderName) { %>
+                                        <a href="/folders/<%= file.folderId %>" class="table-folder-link">
+                                            <%= file.folderName %>
+                                        </a>
+                                        <% } %>
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <% locals.files.forEach((file)=> { %>
-                                <tr>
-                                    <td class="file-icon-cell">
-                                        <a href="/files/<%= file.id %>"></a>
-                                        <img src="<%= file.icon %>" alt="image icon" class="icon">
-                                    </td>
-                                    <td>
-                                        <%= file.name %>
-                                    </td>
-                                    <td>
-                                        <%= file.displaySize %>
-                                    </td>
-                                    <td>
-                                        <%= file.displayCreatedAt %>
-                                    </td>
-                                    <td>
-                                        <%= file.displayUpdatedAt %>
-                                    </td>
-                                    <td>
-                                        <%= file.folderName %>
-                                    </td>
-                                </tr>
-                                <% }); %>
-                        </tbody>
-                    </table>
+                            <% }); %>
+                    </tbody>
+                </table>
             </div>
     </main>
     <%- include('./partials/footer.ejs')%>

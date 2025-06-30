@@ -1,6 +1,7 @@
 const { format } = require("date-fns");
 const { formatBytes } = require("../../shared/utils");
 const getFileIcon = require("./get-file-icon.js");
+const prisma = require("../../prisma/prisma-client.js");
 
 const formatFileData = async (file) => {
   const formatted = {
