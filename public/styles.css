@@ -218,8 +218,9 @@ a.btn.active {
 
 /* ALERTS */
 .alert {
-  margin: 1rem 0rem;
-  min-width: 600px;
+  margin: 1rem auto;
+  width: 600px;
+  min-width: none;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

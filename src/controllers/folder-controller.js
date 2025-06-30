@@ -1,13 +1,20 @@
 const prisma = require("../../prisma/prisma-client");
+const formatFolderData = require("../utils/format-folder-data");
 
 const allFoldersGet = async (req, res, next) => {
   const folders = await prisma.folder.findMany({
     where: { userId: req.user.id },
   });
 
-//   const formattedFolders = folders.map(folder)
+  const formattedFolders = await Promise.all(
+    folders.map(async (folder) => await formatFolderData(folder))
+  );
 
-  res.render("folders", { title: "All Folders", folders });
+  res.render("folders", {
+    title: "All Folders",
+    folders: formattedFolders,
+    errors: [],
+  });
 };
 
 const createFolderGet = (req, res, next) => {

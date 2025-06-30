@@ -1,32 +1,31 @@
 <%- include('./partials/header.ejs')%>
     <main>
-        <h2>Hey, <%= currentUser.firstName + ' ' + currentUser.lastName %>
-        </h2>
         <div class="container">
-            <%- include('./partials/contents-nav.ejs') %>
+            <%- include('./partials/table-header.ejs') %>
                 <table class="contents-table">
                     <thead>
                         <tr>
                             <th>Folder name</th>
                             <th>Uploaded on</th>
                             <th>Last modified</th>
-                            <th>Files count</th>
+                            <th>Files</th>
                         </tr>
                     </thead>
                     <tbody>
                         <% locals.folders.forEach((folder)=> { %>
                             <tr>
                                 <td>
+                                    <a href="/folders/<%= folder.id %>" class="table-row-link"></a>
                                     <%= folder.name %>
                                 </td>
                                 <td>
-                                    <%= folder.createdAt %>
+                                    <%= folder.displayCreatedAt %>
                                 </td>
                                 <td>
-                                    <%= folder.updatedAt %>
+                                    <%= folder.displayUpdatedAt %>
                                 </td>
                                 <td>
-                                    # for now
+                                    <%= folder.filesCount %>
                                 </td>
                             </tr>
                             <% }); %>
