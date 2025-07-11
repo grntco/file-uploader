@@ -7,8 +7,9 @@ const protectedRouter = Router();
 protectedRouter.use(isAuth);
 // GETS
 protectedRouter.get("/files", fileController.allFilesGet);
-protectedRouter.get("/files/:id", fileController.singleFileGet);
+protectedRouter.get("/files/search", fileController.searchFilesGet);
 protectedRouter.get("/files/:id/download", fileController.downloadFileGet);
+protectedRouter.get("/files/:id", fileController.singleFileGet);
 
 // protectedRouter.get("/upload", fileController.uploadFilesGet);
 

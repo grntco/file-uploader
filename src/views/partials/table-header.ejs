@@ -4,10 +4,10 @@
         </h2>
         <p>Ready to store some files?</p>
     </div>
-    <form class="searchbar">
+    <form action="/files/search" method="GET" class="searchbar">
         <button type="submit"><img src="/icons/search.svg" alt="search magnifying glass icon" class="icon"
                 title="Search"></button>
-        <input type="text" class="" placeholder="Search files">
+        <input type="text" class="" name="q" placeholder="Search your files" value="<%= locals.searchText ?? '' %>">
     </form>
     <% if (locals.folder) { %>
         <h1>
@@ -20,9 +20,13 @@
                     <a href="/folders" class="btn <%= currentPath.includes('/folders') ? 'active' : '' %>">Folders</a>
                 </div>
                 <div class="btns-container">
-                    <button id="add-folder-btn" class="btn blue"><img src="/icons/folder-plus.svg" alt="add folder icon"
-                            class="icon">Create Folder</button>
-                    <button id="add-file-btn" class="btn blue"><img src="/icons/file-plus.svg" alt="add file icon"
-                            class="icon">Upload File</button>
+                    <% if (currentPath.includes('/folders')) { %>
+                        <button id="add-folder-btn" class="btn blue"><img src="/icons/folder-plus.svg"
+                                alt="add folder icon" class="icon">Create Folder</button>
+                        <% } %>
+                            <% if (currentPath.includes('/files')) { %>
+                                <button id="add-file-btn" class="btn blue"><img src="/icons/file-plus.svg"
+                                        alt="add file icon" class="icon">Upload File</button>
+                                <% } %>
                 </div>
             </nav>

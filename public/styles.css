@@ -396,7 +396,7 @@ a.btn.active {
 }
 
 .btns-nav {
-  padding: 1rem 2rem;
+  padding: 1rem;
   display: flex;
   justify-content: space-between;
   border-bottom: var(--border);

@@ -6,7 +6,6 @@ const fsPromises = require("fs").promises;
 const formatFileData = require("../utils/format-file-data.js");
 
 const allFilesGet = async (req, res, next) => {
-
   const files = await prisma.file.findMany({
     where: {
       userId: req.user.id,
@@ -32,7 +31,38 @@ const allFilesGet = async (req, res, next) => {
   });
 };
 
+const searchFilesGet = async (req, res, next) => {
+  const query = req.query.q;
+
+  const files = await prisma.file.findMany({
+    where: {
+      name: { contains: query, mode: "insensitive" },
+      userId: req.user.id,
+    },
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+      {
+        createdAt: "desc",
+      },
+    ],
+  });
+
+  const formattedFiles = await Promise.all(
+    files.map(async (file) => await formatFileData(file))
+  );
+
+  res.render("files", {
+    title: "Search Files",
+    files: formattedFiles,
+    searchText: query,
+    errors: [],
+  });
+};
+
 const singleFileGet = async (req, res, next) => {
+  console.log(req.params.id);
   const id = parseInt(req.params.id);
 
   const file = await prisma.file.findUnique({
@@ -193,6 +223,7 @@ const deleteFilePost = async (req, res, next) => {
 
 module.exports = {
   allFilesGet,
+  searchFilesGet,
   singleFileGet,
   uploadFilesGet,
   downloadFileGet,
