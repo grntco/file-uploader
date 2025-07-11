@@ -48,9 +48,9 @@ const singleFolderGet = async (req, res, next) => {
   }
 };
 
-const createFolderGet = (req, res, next) => {
-  res.render("create-folder", { title: "Create Folder" });
-};
+// const createFolderGet = (req, res, next) => {
+//   res.render("create-folder", { title: "Create Folder" });
+// };
 
 const createFolderPost = async (req, res, next) => {
   const newFolder = await prisma.folder.create({
@@ -66,7 +66,7 @@ const createFolderPost = async (req, res, next) => {
 
 module.exports = {
   allFoldersGet,
-  createFolderGet,
-  createFolderPost,
+  // createFolderGet,
   singleFolderGet,
+  createFolderPost,
 };

@@ -15,12 +15,14 @@ protectedRouter.get("/files/:id", fileController.singleFileGet);
 
 protectedRouter.get("/folders", folderController.allFoldersGet);
 protectedRouter.get("/folders/:id", folderController.singleFolderGet);
-protectedRouter.get("/folders/create", folderController.createFolderGet);
+// protectedRouter.get("/folders/create", folderController.createFolderGet);
 
 // POSTS
 protectedRouter.post("/upload", fileController.uploadFilesPost);
+
 protectedRouter.post("/files/:id/edit", fileController.singleFileEditPost);
 protectedRouter.post("/files/:id/delete", fileController.deleteFilePost);
-protectedRouter.post("/folders/create", folderController.createFolderPost);
+
+protectedRouter.post("/folders/new", folderController.createFolderPost);
 
 module.exports = protectedRouter;

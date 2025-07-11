@@ -285,7 +285,8 @@ a.btn.active {
   text-align: center;
 }
 
-.account-form label {
+.account-form label,
+.new-folder-form label {
   margin: 1rem 0rem 0.25rem 0.5rem;
   font-size: 0.9rem;
   font-weight: 600;
@@ -299,7 +300,8 @@ a.btn.active {
   color: var(--red);
 }
 
-.account-form input {
+.account-form input,
+.new-folder-form input {
   appearance: none;
   background: transparent;
   border: none;
@@ -313,7 +315,8 @@ a.btn.active {
   border-radius: 2rem;
 }
 
-.account-form input:focus {
+.account-form input:focus,
+.new-folder-form input:focus {
   border-color: var(--blue-hover);
 }
 
@@ -433,8 +436,19 @@ a.btn.active {
   color: var(--blue);
 }
 
-.upload-form label span {
-  font-size: 1.3rem;
+.upload-form label img.icon {
+  height: 5rem;
+  filter: invert(52%) sepia(81%) saturate(859%) hue-rotate(181deg)
+    brightness(98%) contrast(96%);
+}
+
+.upload-form label.green img.icon {
+  filter: invert(58%) sepia(11%) saturate(2208%) hue-rotate(72deg)
+    brightness(98%) contrast(90%);
+}
+
+.upload-form label h2 {
+  margin-top: 0.5rem;
   font-weight: 600;
 }
 
@@ -461,6 +475,44 @@ a.btn.active {
 
 .upload-form label:not(.green):hover span {
   color: var(--blue-hover);
+}
+
+.new-folder-form-container {
+  margin: 1rem 0rem;
+  min-height: 200px;
+  width: 100%;
+  border: var(--border);
+  border-radius: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.new-folder-form {
+  min-width: 600px;
+  width: 100%a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.new-folder-form img.icon {
+  height: 5rem;
+}
+
+.new-folder-form h2 {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.new-folder-form .input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-folder-form .btns-container {
+  margin-top: 1rem;
+  align-self: center;
 }
 
 .contents-table {

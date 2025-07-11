@@ -30,7 +30,7 @@ export function initEvents() {
             : `${files.length} files (${formatBytes(totalSize)}) selected.`;
 
         uploadLabel.classList.add("green");
-        uploadLabel.querySelector("span").textContent =
+        uploadLabel.querySelector("h2").textContent =
           filesCountMsg + " Click 'upload' to finish uploading.";
 
         uploadSubmitBtn.classList.remove("hidden");

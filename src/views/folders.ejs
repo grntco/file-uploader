@@ -2,6 +2,21 @@
     <main>
         <div class="container">
             <%- include('./partials/table-header.ejs') %>
+                <div class="new-folder-form-container">
+                    <form id="new-folder-form" class="new-folder-form hidden" action="/folders/new" method="POST"
+                        autocomplete="off">
+                        <img src="icons/folder-plus.svg" alt="folder plus icon" class="icon">
+                        <h2>New Folder</h2>
+                        <div class="input-wrapper">
+                            <label for="folderName">Folder name</label>
+                            <input type="text" id="folderName" name="name" placeholder="Your folder name">
+                        </div>
+                        <div class="btns-container">
+                            <button type="reset" id="new-folder-cancel-btn" class="btn">Cancel</button>
+                            <button type="submit" class="btn blue">Create</button>
+                        </div>
+                    </form>
+                </div>
                 <table class="contents-table">
                     <thead>
                         <tr>
