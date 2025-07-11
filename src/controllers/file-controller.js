@@ -6,6 +6,7 @@ const fsPromises = require("fs").promises;
 const formatFileData = require("../utils/format-file-data.js");
 
 const allFilesGet = async (req, res, next) => {
+
   const files = await prisma.file.findMany({
     where: {
       userId: req.user.id,
@@ -53,6 +54,37 @@ const uploadFilesGet = (req, res, next) => {
   res.render("upload", { title: "Upload Files" });
 };
 
+const downloadFileGet = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  if (id) {
+    try {
+      const file = await prisma.file.findUnique({
+        where: { id },
+        select: { name: true },
+      });
+
+      if (!file) {
+        req.flash("error", "File not found.");
+        return res.redirect("/files");
+      }
+
+      const filePath = path.join(__dirname, "../uploads/", file.name);
+
+      res.download(filePath, (err) => {
+        if (err) {
+          req.flash("error", "File not found or cannot be downloaded.");
+          return res.redirect("/files");
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      next();
+    }
+  }
+};
+
+// POSTS
 const uploadFilesPost = [
   upload.array("uploaded_files"),
   async (req, res, next) => {
@@ -163,6 +195,7 @@ module.exports = {
   allFilesGet,
   singleFileGet,
   uploadFilesGet,
+  downloadFileGet,
   uploadFilesPost,
   singleFileEditPost,
   deleteFilePost,

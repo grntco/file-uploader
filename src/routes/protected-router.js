@@ -8,10 +8,12 @@ protectedRouter.use(isAuth);
 // GETS
 protectedRouter.get("/files", fileController.allFilesGet);
 protectedRouter.get("/files/:id", fileController.singleFileGet);
+protectedRouter.get("/files/:id/download", fileController.downloadFileGet);
 
 // protectedRouter.get("/upload", fileController.uploadFilesGet);
 
 protectedRouter.get("/folders", folderController.allFoldersGet);
+protectedRouter.get("/folders/:id", folderController.singleFolderGet);
 protectedRouter.get("/folders/create", folderController.createFolderGet);
 
 // POSTS

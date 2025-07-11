@@ -1,7 +1,14 @@
-<% if (successMsg) { %>
+<% if (successFlashMsg) { %>
     <div class="alert green">
         <p>
-            <%= successMsg %>
+            <%= successFlashMsg %>
+        </p>
+    </div>
+<% } %>
+<% if (errorFlashMsg) { %>
+    <div class="alert red">
+        <p>
+            <%= errorFlashMsg %>
         </p>
     </div>
 <% } %>

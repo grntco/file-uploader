@@ -8,9 +8,12 @@
                         Files</a>
                 </div>
                 <div class="btns-container">
-                    <button id="edit-file-btn" class="btn">Edit</button>
+                    <a href="/files/<%= locals.file.id %>/download" class="btn"><img src="/icons/download.svg"
+                            alt="download icon">Download</a>
+                    <button id="edit-file-btn" class="btn"><img src="/icons/edit.svg" alt="edit pencil icon">Edit</button>
                     <form action="/files/<%= locals.file.id %>/delete" method="POST">
-                        <button type="submit" class="btn red"><img src="/icons/trash.svg" alt="trash icon" class="icon"> Trash</button>
+                        <button type="submit" class="btn red"><img src="/icons/trash.svg" alt="trash icon" class="icon">
+                            Trash</button>
                     </form>
                 </div>
             </nav>

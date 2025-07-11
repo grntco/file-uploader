@@ -140,6 +140,10 @@ a.btn.active {
   text-decoration: none;
 }
 
+a.btn.active {
+  cursor: not-allowed;
+}
+
 .btn:hover,
 .btn.active {
   background-color: var(--btn-bg-color-hover);

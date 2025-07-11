@@ -1,5 +1,6 @@
 const prisma = require("../../prisma/prisma-client");
 const formatFolderData = require("../utils/format-folder-data");
+const formatFileData = require("../utils/format-file-data");
 
 const allFoldersGet = async (req, res, next) => {
   const folders = await prisma.folder.findMany({
@@ -15,6 +16,36 @@ const allFoldersGet = async (req, res, next) => {
     folders: formattedFolders,
     errors: [],
   });
+};
+
+const singleFolderGet = async (req, res, next) => {
+  const folderId = parseInt(req.params.id);
+
+  if (folderId) {
+    const folder = await prisma.folder.findUnique({ where: { id: folderId } });
+    const files = await prisma.file.findMany({
+      where: { folderId },
+      orderBy: [
+        {
+          updatedAt: "desc",
+        },
+        {
+          createdAt: "desc",
+        },
+      ],
+    });
+
+    const formattedFiles = await Promise.all(
+      files.map(async (file) => await formatFileData(file))
+    );
+
+    res.render("files", {
+      title: folder.name,
+      folder: folder,
+      files: formattedFiles,
+      errors: [],
+    });
+  }
 };
 
 const createFolderGet = (req, res, next) => {
@@ -37,4 +68,5 @@ module.exports = {
   allFoldersGet,
   createFolderGet,
   createFolderPost,
+  singleFolderGet,
 };

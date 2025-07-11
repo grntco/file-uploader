@@ -5,19 +5,24 @@
         <p>Ready to store some files?</p>
     </div>
     <form class="searchbar">
-        <button type="submit"><img src="icons/search.svg" alt="search magnifying glass icon" class="icon"
+        <button type="submit"><img src="/icons/search.svg" alt="search magnifying glass icon" class="icon"
                 title="Search"></button>
         <input type="text" class="" placeholder="Search files">
     </form>
-    <nav class="btns-nav">
-        <div class="btns-container">
-            <a href="/files" class="btn <%= currentPath === '/files' ? 'active' : '' %>">Files</a>
-            <a href="/folders" class="btn <%= currentPath === '/folders' ? 'active' : '' %>">Folders</a>
-        </div>
-        <div class="btns-container">
-            <button id="add-folder-btn" class="btn blue"><img src="icons/folder-plus.svg" alt="add folder icon"
-                    class="icon">Create Folder</button>
-            <button id="add-file-btn" class="btn blue"><img src="icons/file-plus.svg" alt="add file icon"
-                    class="icon">Upload File</button>
-        </div>
-    </nav>
+    <% if (locals.folder) { %>
+        <h1>
+            <%= locals.folder.name %>
+        </h1>
+        <% } %>
+            <nav class="btns-nav">
+                <div class="btns-container">
+                    <a href="/files" class="btn <%= currentPath.includes('/files') ? 'active' : '' %>">Files</a>
+                    <a href="/folders" class="btn <%= currentPath.includes('/folders') ? 'active' : '' %>">Folders</a>
+                </div>
+                <div class="btns-container">
+                    <button id="add-folder-btn" class="btn blue"><img src="/icons/folder-plus.svg" alt="add folder icon"
+                            class="icon">Create Folder</button>
+                    <button id="add-file-btn" class="btn blue"><img src="/icons/file-plus.svg" alt="add file icon"
+                            class="icon">Upload File</button>
+                </div>
+            </nav>
