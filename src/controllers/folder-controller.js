@@ -1,6 +1,8 @@
 const prisma = require("../../prisma/prisma-client");
 const formatFolderData = require("../utils/format-folder-data");
 const formatFileData = require("../utils/format-file-data");
+const validateFolder = require("../validation/folder-validator");
+const { validationResult } = require("express-validator");
 
 const allFoldersGet = async (req, res, next) => {
   const folders = await prisma.folder.findMany({
@@ -48,25 +50,82 @@ const singleFolderGet = async (req, res, next) => {
   }
 };
 
-// const createFolderGet = (req, res, next) => {
-//   res.render("create-folder", { title: "Create Folder" });
-// };
+// POSTS
+const createFolderPost = [
+  validateFolder,
+  async (req, res, next) => {
+    const errors = validationResult(req);
 
-const createFolderPost = async (req, res, next) => {
-  const newFolder = await prisma.folder.create({
-    data: {
-      name: req.body.name,
-      userId: req.user.id,
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      const folders = await prisma.folder.findMany({
+        where: { userId: req.user.id },
+      });
+
+      const formattedFolders = await Promise.all(
+        folders.map(async (folder) => await formatFolderData(folder))
+      );
+
+      return res.status(400).render("folders", {
+        title: "All Folders",
+        folders: formattedFolders,
+        errors: errors.array(),
+      });
+    }
+
+    const newFolder = await prisma.folder.create({
+      data: {
+        name: req.body.name,
+        userId: req.user.id,
+      },
+    });
+
+    console.log(newFolder);
+    res.redirect("/folders");
+  },
+];
+
+const deleteFolderPost = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  if (!id || isNaN(id)) {
+    req.flash("error", "Invalid folder ID.");
+    return res.redirect("/folders");
+  }
+
+  const folder = await prisma.folder.findFirst({
+    where: {
+      id: id,
+      userId: req.user.id, // Only allow deletion of user's own folders
     },
   });
 
-  console.log(newFolder);
-  res.redirect("/folders");
+  if (!folder) {
+    req.flash(
+      "error",
+      "Folder not found or you don't have permission to delete it."
+    );
+    return res.redirect("/folders");
+  }
+
+  if (id) {
+    try {
+      await prisma.folder.delete({ where: { id } });
+      req.flash(
+        "success",
+        "Folder successfully deleted. Any files in that folder are still safe."
+      );
+    } catch (err) {
+      console.error("Error deleting folder: ", err);
+      req.flash("error", "An error occurred while deleting the folder.");
+    }
+    res.redirect("/folders");
+  }
 };
 
 module.exports = {
   allFoldersGet,
-  // createFolderGet,
   singleFolderGet,
   createFolderPost,
+  deleteFolderPost,
 };

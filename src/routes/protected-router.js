@@ -23,6 +23,7 @@ protectedRouter.post("/upload", fileController.uploadFilesPost);
 protectedRouter.post("/files/:id/edit", fileController.singleFileEditPost);
 protectedRouter.post("/files/:id/delete", fileController.deleteFilePost);
 
-protectedRouter.post("/folders/new", folderController.createFolderPost);
+protectedRouter.post("/folders", folderController.createFolderPost);
+protectedRouter.post("/folders/:id/delete", folderController.deleteFolderPost);
 
 module.exports = protectedRouter;

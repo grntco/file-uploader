@@ -1,4 +1,4 @@
-<%- include('.//alerts.ejs') %>
+<%- include('./alerts.ejs') %>
     <div class="hero">
         <h2>Welcome, <%= currentUser.firstName + ' ' + currentUser.lastName %>
         </h2>
@@ -19,10 +19,17 @@
                 <button id="add-folder-btn" class="btn blue"><img src="/icons/folder-plus.svg" alt="add folder icon"
                         class="icon">New Folder</button>
                 <% } %>
-                    <% if (currentPath.includes('/files')) { %>
-                        <button id="add-file-btn" class="btn blue"><img src="/icons/file-plus.svg" alt="add file icon"
-                                class="icon">Upload File</button>
+                    <% if (currentPath.match(/\/folders\/\d+/gi)) { %>
+                        <form action="/folders/<%= locals.folder.id %>/delete" method="POST">
+                            <button type="submit" class="btn red"><img src="/icons/trash.svg" alt="trash icon"
+                                    class="icon">
+                                Delete Folder</button>
+                        </form>
                         <% } %>
+                            <% if (currentPath.includes('/files')) { %>
+                                <button id="add-file-btn" class="btn blue"><img src="/icons/file-plus.svg"
+                                        alt="add file icon" class="icon">Upload File</button>
+                                <% } %>
         </div>
     </nav>
     <div class="table-heading">
