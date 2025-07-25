@@ -1,60 +1,76 @@
 export function initEvents() {
-  console.log("events initialized");
+  const show = (el) => el?.classList.remove("hidden");
+  const hide = (el) => el?.classList.add("hidden");
 
   // UPLOAD FILE FORM
   const addFileBtn = document.getElementById("add-file-btn");
   const uploadCancelBtn = document.getElementById("upload-cancel-btn");
   const uploadInput = document.getElementById("upload-input");
+  const uploadForm = document.getElementById("upload-form");
+  const uploadLabel = document.getElementById("upload-label");
+  const uploadSubmitBtn = document.getElementById("upload-submit-btn");
 
-  if (addFileBtn || uploadCancelBtn || uploadInput) {
-    const uploadForm = document.getElementById("upload-form");
-    const uploadLabel = document.getElementById("upload-label");
-    const uploadSubmitBtn = document.getElementById("upload-submit-btn");
+  if (addFileBtn && uploadForm) {
+    addFileBtn.addEventListener("click", () => show(uploadForm));
+  }
 
-    addFileBtn.addEventListener("click", () => {
-      uploadForm.classList.remove("hidden");
-    });
+  if (uploadCancelBtn && uploadForm) {
+    uploadCancelBtn.addEventListener("click", () => hide(uploadForm));
+  }
 
-    uploadCancelBtn.addEventListener("click", () => {
-      uploadForm.classList.add("hidden");
-    });
-
+  if (uploadInput && uploadLabel && uploadSubmitBtn) {
     uploadInput.addEventListener("change", (e) => {
-      const files = Array.from(e.target.files);
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
 
-      if (files.length > 0) {
-        const totalSize = files.reduce((total, file) => total + file.size, 0);
-        const filesCountMsg =
-          files.length === 1
-            ? `1 file (${formatBytes(totalSize)}) selected .`
-            : `${files.length} files (${formatBytes(totalSize)}) selected.`;
+      const totalSize = files.reduce((sum, f) => sum + f.size, 0);
+      const msg =
+        files.length === 1
+          ? `1 file (${formatBytes(totalSize)}) selected.`
+          : `${files.length} files (${formatBytes(totalSize)}) selected.`;
 
-        uploadLabel.classList.add("green");
-        uploadLabel.querySelector("h2").textContent =
-          filesCountMsg + " Click 'upload' to finish uploading.";
-
-        uploadSubmitBtn.classList.remove("hidden");
-        //   uploadCancelBtn.classList.add("hidden");
-      }
+      uploadLabel.classList.add("green");
+      uploadLabel.querySelector("h2").textContent =
+        msg + " Click 'upload' to finish uploading.";
+      show(uploadSubmitBtn);
     });
   }
 
   // EDIT FILE FORM
-  const editFileButton = document.getElementById("edit-file-btn");
-  const editFileCancelBtn = document.getElementById("edit-file-cancel-btn");
+  const editFileBtn = document.getElementById("edit-file-btn");
+  const editCancelBtn = document.getElementById("edit-file-cancel-btn");
+  const editForm = document.getElementById("edit-file-form");
+  const fileInfo = document.getElementById("single-file-info");
 
-  if (editFileButton || editFileCancelBtn) {
-    const editFileForm = document.getElementById("edit-file-form");
-    const singleFileInfo = document.getElementById("single-file-info");
-
-    editFileButton.addEventListener("click", () => {
-      editFileForm.classList.remove("hidden");
-      singleFileInfo.classList.add("hidden");
+  if (editFileBtn && editForm && fileInfo) {
+    editFileBtn.addEventListener("click", () => {
+      show(editForm);
+      hide(fileInfo);
     });
+  }
 
-    editFileCancelBtn.addEventListener("click", (e) => {
-      editFileForm.classList.add("hidden");
-      singleFileInfo.classList.remove("hidden");
+  if (editCancelBtn && editForm && fileInfo) {
+    editCancelBtn.addEventListener("click", () => {
+      hide(editForm);
+      show(fileInfo);
     });
+  }
+
+  // CREATE FOLDER FORM
+  const addFolderBtn = document.getElementById("add-folder-btn");
+  const newFolderForm = document.querySelector(".new-folder-form-container");
+  const newFolderFormCancelBtn = document.getElementById(
+    "new-folder-cancel-btn"
+  );
+  const newFolderFormSubmitBtn = document.getElementById(
+    "new-folder-submit-btn"
+  );
+
+  if (addFolderBtn && newFolderForm) {
+    addFolderBtn.addEventListener("click", () => show(newFolderForm));
+  }
+
+  if (newFolderFormCancelBtn && newFolderForm) {
+    newFolderFormCancelBtn.addEventListener("click", () => hide(newFolderForm));
   }
 }

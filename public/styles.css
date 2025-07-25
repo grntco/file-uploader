@@ -501,6 +501,10 @@ a.btn.active {
   justify-content: center;
 }
 
+.new-folder-form-container.hidden {
+  display: none;
+}
+
 .new-folder-form {
   min-width: 600px;
   width: 100%a;

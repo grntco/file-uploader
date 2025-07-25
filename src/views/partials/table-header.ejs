@@ -11,11 +11,11 @@
     </form>
     <nav class="btns-nav">
         <div class="btns-container">
-            <a href="/files" class="btn <%= currentPath.includes('/files') ? 'active' : '' %>">Files</a>
-            <a href="/folders" class="btn <%= currentPath.includes('/folders') ? 'active' : '' %>">Folders</a>
+            <a href="/files" class="btn">Files</a>
+            <a href="/folders" class="btn">Folders</a>
         </div>
         <div class="btns-container">
-            <% if (currentPath.includes('/folders')) { %>
+            <% if (currentPath.includes('/folders') && !currentPath.match(/\/folders\/\d+/gi)) { %>
                 <button id="add-folder-btn" class="btn blue"><img src="/icons/folder-plus.svg" alt="add folder icon"
                         class="icon">New Folder</button>
                 <% } %>
@@ -27,6 +27,6 @@
     </nav>
     <div class="table-heading">
         <h2>
-            <%= locals.searchText ? 'Files matching: "'+ locals.searchText + '"': locals.title %>
+            <%= locals.searchText ? 'Files matching: "' + locals.searchText + '"' : locals.title %>
         </h2>
     </div>
