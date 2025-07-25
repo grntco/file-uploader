@@ -70,7 +70,7 @@ const singleFileGet = async (req, res, next) => {
   });
 
   if (!file || file.userId !== req.user.id) {
-    return res.status(403).send("Forbidden");
+    return res.status(403).render("403", { title: "Forbidden" });
   }
 
   const formattedFile = await formatFileData(file);

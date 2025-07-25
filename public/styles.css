@@ -183,6 +183,11 @@ a.btn.active {
     brightness(117%) contrast(87%);
 }
 
+.icon.red {
+  filter: invert(45%) sepia(29%) saturate(1468%) hue-rotate(315deg)
+    brightness(96%) contrast(96%);
+}
+
 .container {
   height: 100%;
   margin: 0 auto;
@@ -194,27 +199,27 @@ a.btn.active {
   flex-grow: 1;
 }
 
-.home-hero {
+.center-content {
   margin-top: 25%;
   text-align: center;
 }
 
-.home-hero img.icon {
+.center-content img.icon {
   height: 5rem;
 }
 
-.home-hero h1 {
+.center-content h1 {
   margin-top: 0.5rem;
   font-size: clamp(1.5rem, 4vw, 5rem);
 }
 
-.home-hero p {
+.center-content p {
   margin: 1rem 0rem 2rem;
   font-size: 1.3rem;
   color: var(--secondary-txt-color);
 }
 
-.home-hero .btns-container {
+.center-content .btns-container {
   /* display: flex; */
   justify-content: center;
   /* gap: 1rem; */
@@ -410,6 +415,15 @@ a.btn.active {
   gap: 0.5rem;
 }
 
+.table-heading {
+  padding: 0.5rem 1rem;
+  border-bottom: var(--border);
+}
+
+.table-heading h2 {
+  font-size: 1.4rem;
+}
+
 /* UPLOAD FORM */
 .upload-form {
   margin: 1rem 0rem;
@@ -516,9 +530,9 @@ a.btn.active {
 }
 
 .contents-table {
-  margin: 1rem 0rem 3rem;
   width: 100%;
   border-collapse: collapse;
+  margin-bottom: 3rem;
 }
 
 .contents-table tr {
