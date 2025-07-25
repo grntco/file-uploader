@@ -427,9 +427,6 @@ a.btn.active {
 /* UPLOAD FORM */
 .upload-form {
   margin: 1rem 0rem;
-  min-height: 200px;
-  width: 100%;
-  position: relative;
 }
 
 .upload-form.hidden {
@@ -437,8 +434,6 @@ a.btn.active {
 }
 
 .upload-form label {
-  position: absolute;
-  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -448,6 +443,7 @@ a.btn.active {
   cursor: pointer;
   z-index: 3;
   color: var(--blue);
+  padding: 2rem;
 }
 
 .upload-form label img.icon {
@@ -507,7 +503,7 @@ a.btn.active {
 
 .new-folder-form {
   min-width: 600px;
-  width: 100%a;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;

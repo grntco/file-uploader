@@ -74,7 +74,9 @@ const singleFileGet = async (req, res, next) => {
   }
 
   const formattedFile = await formatFileData(file);
-  const folders = await prisma.folder.findMany();
+  const folders = await prisma.folder.findMany({
+    where: { userId: req.user.id },
+  });
 
   console.log(formattedFile);
   res.render("single-file", { title: file.name, file: formattedFile, folders });
