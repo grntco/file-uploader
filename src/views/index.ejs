@@ -6,8 +6,12 @@
                 <h1>File Uploader</h1>
                 <p>One place for all your files</p>
                 <div class="btns-container">
-                    <a href="/sign-up" class="btn blue">Sign Up</a>
-                    <a href="/login" class="btn">Login</a>
+                    <% if (!currentUser) { %>
+                        <a href="/sign-up" class="btn blue">Sign Up</a>
+                        <a href="/login" class="btn">Login</a>
+                        <% } else { %>
+                            <a href="/files" class="btn">Go to Files</a>
+                            <% } %>
                 </div>
             </div>
         </div>
