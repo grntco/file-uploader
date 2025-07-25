@@ -1,19 +1,20 @@
 <%- include('./partials/header.ejs') %>
     <main>
         <div class="container">
-                <%- include('./partials/table-header.ejs') %>
-                    <form id="upload-form" class="upload-form hidden" action="/upload" method="POST"
-                        enctype="multipart/form-data">
-                        <label id="upload-label" for="upload-input">
-                            <img src="/icons/upload.svg" alt="upload icon" class="icon">
-                            <h2>Drop or select file</h2>
-                            <div class="btns-container">
-                                <button type="reset" id="upload-cancel-btn" class="btn">Cancel</button>
-                                <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
-                            </div>
-                        </label>
-                        <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
-                    </form>
+            <%- include('./partials/table-header.ejs') %>
+                <form id="upload-form" class="upload-form hidden" action="/upload" method="POST"
+                    enctype="multipart/form-data">
+                    <label id="upload-label" for="upload-input">
+                        <img src="/icons/upload.svg" alt="upload icon" class="icon">
+                        <h2>Drop or select file</h2>
+                        <div class="btns-container">
+                            <button type="reset" id="upload-cancel-btn" class="btn">Cancel</button>
+                            <button type="submit" id="upload-submit-btn" class="btn green hidden">Upload</button>
+                        </div>
+                    </label>
+                    <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
+                </form>
+                <% if (locals.files.length> 0) { %>
                     <table class="contents-table">
                         <thead>
                             <tr>
@@ -55,6 +56,11 @@
                                 <% }); %>
                         </tbody>
                     </table>
+                    <% } else { %>
+                        <div class="no-results">
+                            <p>No files found</p>
+                        </div>
+                        <% }%>
         </div>
     </main>
     <%- include('./partials/footer.ejs')%>

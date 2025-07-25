@@ -566,6 +566,10 @@ a.btn.active {
   z-index: 3;
 }
 
+.no-results {
+  padding: 0.5rem 1rem;
+}
+
 /* SINGLE FILE PAGE */
 .single-file-row {
   display: flex;

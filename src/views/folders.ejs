@@ -17,35 +17,41 @@
                         </div>
                     </form>
                 </div>
-                <table class="contents-table">
-                    <thead>
-                        <tr>
-                            <th>Folder name</th>
-                            <th>Uploaded on</th>
-                            <th>Last modified</th>
-                            <th>Files</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% locals.folders.forEach((folder)=> { %>
+                <% if (locals.folders.length> 0) { %>
+                    <table class="contents-table">
+                        <thead>
                             <tr>
-                                <td>
-                                    <a href="/folders/<%= folder.id %>" class="table-row-link"></a>
-                                    <%= folder.name %>
-                                </td>
-                                <td>
-                                    <%= folder.displayCreatedAt %>
-                                </td>
-                                <td>
-                                    <%= folder.displayUpdatedAt %>
-                                </td>
-                                <td>
-                                    <%= folder.filesCount %>
-                                </td>
+                                <th>Folder name</th>
+                                <th>Uploaded on</th>
+                                <th>Last modified</th>
+                                <th>Files</th>
                             </tr>
-                            <% }); %>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <% locals.folders.forEach((folder)=> { %>
+                                <tr>
+                                    <td>
+                                        <a href="/folders/<%= folder.id %>" class="table-row-link"></a>
+                                        <%= folder.name %>
+                                    </td>
+                                    <td>
+                                        <%= folder.displayCreatedAt %>
+                                    </td>
+                                    <td>
+                                        <%= folder.displayUpdatedAt %>
+                                    </td>
+                                    <td>
+                                        <%= folder.filesCount %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                        </tbody>
+                    </table>
+                    <% } else { %>
+                        <div class="no-results">
+                            <p>No folders found</p>
+                        </div>
+                        <% }%>
         </div>
     </main>
     <%- include('./partials/footer.ejs')%>
