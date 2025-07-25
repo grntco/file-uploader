@@ -54,7 +54,7 @@ const searchFilesGet = async (req, res, next) => {
   );
 
   res.render("files", {
-    title: "Search Files",
+    title: files.length ? "Search Files" : "All Files",
     files: formattedFiles,
     searchText: query,
     errors: [],

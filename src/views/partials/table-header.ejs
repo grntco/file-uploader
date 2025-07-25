@@ -27,6 +27,6 @@
     </nav>
     <div class="table-heading">
         <h2>
-            <%= locals.title %>
+            <%= locals.searchText ? 'Files matching: "'+ locals.searchText + '"': locals.title %>
         </h2>
     </div>
