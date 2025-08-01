@@ -1,5 +1,3 @@
-const multer = require("multer");
-const upload = multer({ dest: "./src/uploads/" });
 const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
 const crypto = require("crypto");
@@ -7,6 +5,8 @@ const fsPromises = require("fs").promises;
 const formatFileData = require("../utils/format-file-data.js");
 const validateEditFile = require("../validation/edit-file-validator");
 const { validationResult } = require("express-validator");
+const upload = require("../config/multer-config.js");
+const supabase = require("../config/supabase-config.js");
 
 const allFilesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
@@ -93,26 +93,32 @@ const downloadFileGet = async (req, res, next) => {
         select: { userId: true, name: true, uniqueName: true },
       });
 
+      if (!file) {
+        req.flash("error", "File not found in database.");
+        return res.redirect("/files");
+      }
+
       if (file.userId !== req.user.id) {
         return res.status(403).render("403", { title: "403: Forbidden" });
       }
 
-      if (!file) {
-        req.flash("error", "File not found.");
-        return res.redirect("/files");
+      // Download from supabase
+      const { data, error } = await supabase.storage
+        .from("user-files")
+        .createSignedUrl(file.uniqueName, 3600, {
+          download: file.name,
+        });
+
+      if (error) {
+        console.error("Supabase upload error:", error);
+        throw new Error(`Failed to download ${file.name}: ${error.message}`);
       }
 
-      const filePath = path.join(__dirname, "../uploads/", file.uniqueName);
-
-      res.download(filePath, file.name, (err) => {
-        if (err) {
-          req.flash("error", "File not found or cannot be downloaded.");
-          return res.redirect("/files");
-        }
-      });
+      return res.redirect(data.signedUrl);
     } catch (err) {
       console.error(err);
-      next();
+      req.flash("error", "An error occurred when downloading a file.");
+      return res.redirect("/files");
     }
   }
 };
@@ -132,11 +138,19 @@ const uploadFilesPost = [
     try {
       const processedFiles = await Promise.all(
         files.map(async (file) => {
-          const oldPath = file.path;
-          const uniqueName = file.originalname + crypto.randomUUID();
-          const newPath = path.join(file.destination, uniqueName);
+          const uniqueName =
+            crypto.randomUUID() + path.extname(file.originalname);
 
-          await fsPromises.rename(oldPath, newPath);
+          const { data, error } = await supabase.storage
+            .from("user-files")
+            .upload(uniqueName, file.buffer);
+
+          if (error) {
+            console.error("Supabase upload error:", error);
+            throw new Error(
+              `Failed to upload ${file.originalname}: ${error.message}`
+            );
+          }
 
           const newFile = await prisma.file.create({
             data: {
@@ -148,18 +162,21 @@ const uploadFilesPost = [
             },
           });
 
-          console.log(newFile);
-
           return newFile;
         })
       );
 
       console.log(`Successfully uploaded ${processedFiles.length} files`);
-      res.redirect("/files");
+      req.flash(
+        "success",
+        `Successfully uploaded ${processedFiles.length} file(s).`
+      );
     } catch (err) {
       console.error("Error processing files:", err);
-      next(err);
+      req.flash("error", "An error occurred while uploading files.");
     }
+
+    res.redirect("/files");
   },
 ];
 
@@ -225,17 +242,26 @@ const deleteFilePost = async (req, res, next) => {
     try {
       const file = await prisma.file.findUnique({
         where: { id },
-        select: { uniqueName: true },
+        select: { name: true, uniqueName: true },
       });
-      const filePath = path.join(__dirname, "../uploads/", file.uniqueName);
 
-      await fsPromises.unlink(filePath);
+      // Delete from supabase storage
+      const { data, error } = await supabase.storage
+        .from("user-files")
+        .remove([file.uniqueName]);
+
+      if (error) {
+        console.error("Supabase deletion error:", error);
+        throw new Error(`Failed to delete ${file.name}: ${error.message}`);
+      }
+
+      // Delete from database
       await prisma.file.delete({ where: { id } });
 
       req.flash("success", "File successully deleted.");
     } catch (err) {
-      console.error(err);
-      next();
+      console.error("Error deleting file:", err);
+      req.flash("error", `Error deleting file: ${err}`);
     }
     res.redirect("/files");
   }
