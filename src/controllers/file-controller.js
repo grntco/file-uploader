@@ -2,6 +2,7 @@ const multer = require("multer");
 const upload = multer({ dest: "./src/uploads/" });
 const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
+const crypto = require("crypto");
 const fsPromises = require("fs").promises;
 const formatFileData = require("../utils/format-file-data.js");
 const validateEditFile = require("../validation/edit-file-validator");
@@ -89,7 +90,7 @@ const downloadFileGet = async (req, res, next) => {
     try {
       const file = await prisma.file.findUnique({
         where: { id },
-        select: { name: true },
+        select: { userId: true, name: true, uniqueName: true },
       });
 
       if (file.userId !== req.user.id) {
@@ -101,9 +102,9 @@ const downloadFileGet = async (req, res, next) => {
         return res.redirect("/files");
       }
 
-      const filePath = path.join(__dirname, "../uploads/", file.name);
+      const filePath = path.join(__dirname, "../uploads/", file.uniqueName);
 
-      res.download(filePath, (err) => {
+      res.download(filePath, file.name, (err) => {
         if (err) {
           req.flash("error", "File not found or cannot be downloaded.");
           return res.redirect("/files");
@@ -132,20 +133,22 @@ const uploadFilesPost = [
       const processedFiles = await Promise.all(
         files.map(async (file) => {
           const oldPath = file.path;
-          const newPath = path.join(file.destination, file.originalname);
+          const uniqueName = file.originalname + crypto.randomUUID();
+          const newPath = path.join(file.destination, uniqueName);
 
           await fsPromises.rename(oldPath, newPath);
 
-          // Create database record
-          // TODO: prisma.createMany for multiple files uploaded?
           const newFile = await prisma.file.create({
             data: {
               name: file.originalname,
+              uniqueName: uniqueName,
               mimeType: file.mimetype,
               size: file.size,
               userId: req.user.id,
             },
           });
+
+          console.log(newFile);
 
           return newFile;
         })
@@ -189,16 +192,10 @@ const singleFileEditPost = [
       try {
         const file = await prisma.file.findUnique({
           where: { id: fileId },
-          select: { name: true },
+          select: { uniqueName: true },
         });
-        const uploadsDir = path.join(__dirname, "../uploads/");
 
         if (file) {
-          await fsPromises.rename(
-            path.join(uploadsDir, file.name),
-            path.join(uploadsDir, newFileName)
-          );
-
           const folderId = parseInt(req.body.folderId) ?? null;
 
           await prisma.file.update({
@@ -228,9 +225,9 @@ const deleteFilePost = async (req, res, next) => {
     try {
       const file = await prisma.file.findUnique({
         where: { id },
-        select: { name: true },
+        select: { uniqueName: true },
       });
-      const filePath = path.join(__dirname, "../uploads/", file.name);
+      const filePath = path.join(__dirname, "../uploads/", file.uniqueName);
 
       await fsPromises.unlink(filePath);
       await prisma.file.delete({ where: { id } });

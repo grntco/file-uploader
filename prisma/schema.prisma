@@ -35,16 +35,17 @@ model User {
 }
 
 model File {
-  id        Int      @id @default(autoincrement())
-  name      String
-  mimeType  String?
-  size      BigInt?
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  folderId  Int?
-  folder    Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  name       String
+  uniqueName String   @unique
+  mimeType   String?
+  size       BigInt?
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folderId   Int?
+  folder     Folder?  @relation(fields: [folderId], references: [id], onDelete: SetNull)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@map("file")
 }
