@@ -130,13 +130,11 @@ const uploadFilesPost = [
     }
 
     try {
-      // Process all files in parallel
       const processedFiles = await Promise.all(
         files.map(async (file) => {
           const oldPath = file.path;
           const newPath = path.join(file.destination, file.originalname);
 
-          // Rename file
           await fsPromises.rename(oldPath, newPath);
 
           // Create database record
@@ -146,7 +144,7 @@ const uploadFilesPost = [
               name: file.originalname,
               mimeType: file.mimetype,
               size: file.size,
-              userId: req.user.id, // Assuming user is attached to req
+              userId: req.user.id,
             },
           });
 

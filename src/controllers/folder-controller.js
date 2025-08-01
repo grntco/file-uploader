@@ -101,7 +101,7 @@ const deleteFolderPost = async (req, res, next) => {
   const folder = await prisma.folder.findFirst({
     where: {
       id: id,
-      userId: req.user.id, // Only allow deletion of user's own folders
+      userId: req.user.id,
     },
   });
 

@@ -688,6 +688,8 @@ label {
 .edit-file-form select:focus {
   border: var(--border);
 }
+
+/* TODO: fix this */
 .edit-file-form select:focus {
   /* border-color: var(--blue-hover); */
 }

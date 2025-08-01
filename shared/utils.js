@@ -11,7 +11,7 @@ if (typeof module !== "undefined" && module.exports) {
   module.exports = { formatBytes };
 }
 
-// For browsers (client-side) - make it global
+// For browsers (client-side) - makes function global
 if (typeof window !== "undefined") {
   window.formatBytes = formatBytes;
 }

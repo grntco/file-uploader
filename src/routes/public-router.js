@@ -9,7 +9,6 @@ publicRouter.get("/", (req, res, next) =>
 );
 publicRouter.get("/sign-up", userController.signUpGet);
 publicRouter.get("/login", userController.loginGet);
-// TODO: is the logout technically not public?
 publicRouter.get("/logout", userController.logoutGet);
 
 // POSTS
