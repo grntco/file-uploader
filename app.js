@@ -27,5 +27,8 @@ const publicRouter = require("./src/routes/public-router");
 const protectedRouter = require("./src/routes/protected-router");
 app.use(publicRouter);
 app.use(protectedRouter);
+app.use((req, res) => {
+    res.status(404).render('404');
+})
 
 app.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));

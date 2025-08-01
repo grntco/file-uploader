@@ -62,7 +62,6 @@ const searchFilesGet = async (req, res, next) => {
 };
 
 const singleFileGet = async (req, res, next) => {
-  console.log(req.params.id);
   const id = parseInt(req.params.id);
 
   const file = await prisma.file.findUnique({
@@ -78,7 +77,6 @@ const singleFileGet = async (req, res, next) => {
     where: { userId: req.user.id },
   });
 
-  console.log(formattedFile);
   res.render("single-file", { title: file.name, file: formattedFile, folders });
 };
 
@@ -95,6 +93,10 @@ const downloadFileGet = async (req, res, next) => {
         where: { id },
         select: { name: true },
       });
+
+      if (file.userId !== req.user.id) {
+        return res.status(403).render("403", { title: "Forbidden" });
+      }
 
       if (!file) {
         req.flash("error", "File not found.");
