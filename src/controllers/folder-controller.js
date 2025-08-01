@@ -27,7 +27,7 @@ const singleFolderGet = async (req, res, next) => {
     const folder = await prisma.folder.findUnique({ where: { id: folderId } });
 
     if (!folder || folder.userId !== req.user.id) {
-      return res.status(403).render("403", { title: "Forbidden" });
+      return res.status(403).render("403", { title: "403: Forbidden" });
     }
 
     const files = await prisma.file.findMany({

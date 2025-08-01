@@ -4,6 +4,8 @@ const prisma = require("../../prisma/prisma-client");
 const path = require("node:path");
 const fsPromises = require("fs").promises;
 const formatFileData = require("../utils/format-file-data.js");
+const validateEditFile = require("../validation/edit-file-validator");
+const { validationResult } = require("express-validator");
 
 const allFilesGet = async (req, res, next) => {
   const files = await prisma.file.findMany({
@@ -69,7 +71,7 @@ const singleFileGet = async (req, res, next) => {
   });
 
   if (!file || file.userId !== req.user.id) {
-    return res.status(403).render("403", { title: "Forbidden" });
+    return res.status(403).render("403", { title: "403: Forbidden" });
   }
 
   const formattedFile = await formatFileData(file);
@@ -91,7 +93,7 @@ const downloadFileGet = async (req, res, next) => {
       });
 
       if (file.userId !== req.user.id) {
-        return res.status(403).render("403", { title: "Forbidden" });
+        return res.status(403).render("403", { title: "403: Forbidden" });
       }
 
       if (!file) {
@@ -122,6 +124,7 @@ const uploadFilesPost = [
 
     if (!files || files.length === 0) {
       console.log("No files uploaded");
+      req.flash("error", "No files uploaded.");
       return res.redirect("/files");
     }
 
@@ -157,44 +160,66 @@ const uploadFilesPost = [
   },
 ];
 
-const singleFileEditPost = async (req, res, next) => {
-  const fileId = parseInt(req.params.id);
-  const newFileName = req.body.name;
+const singleFileEditPost = [
+  validateEditFile,
+  async (req, res, next) => {
+    const fileId = parseInt(req.params.id);
+    const newFileName = req.body.name;
 
-  if (newFileName || req.body.folderId) {
-    try {
-      const file = await prisma.file.findUnique({
-        where: { id: fileId },
-        select: { name: true },
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      console.log(errors);
+      const files = await prisma.file.findMany({
+        where: { userId: req.user.id },
       });
-      const uploadsDir = path.join(__dirname, "../uploads/");
 
-      if (file) {
-        await fsPromises.rename(
-          path.join(uploadsDir, file.name),
-          path.join(uploadsDir, newFileName)
-        );
+      const formattedFiles = await Promise.all(
+        files.map(async (file) => await formatFileData(file))
+      );
 
-        const folderId = parseInt(req.body.folderId) ?? null;
-
-        await prisma.file.update({
-          where: {
-            id: fileId,
-          },
-          data: {
-            name: newFileName,
-            folderId: folderId,
-          },
-        });
-      }
-
-      res.redirect(`/files/${fileId}`);
-    } catch (err) {
-      console.error(err);
-      next();
+      return res.status(400).render("files", {
+        title: "All Files",
+        files: formattedFiles,
+        errors: errors.array(),
+      });
     }
-  }
-};
+
+    if (newFileName || req.body.folderId) {
+      try {
+        const file = await prisma.file.findUnique({
+          where: { id: fileId },
+          select: { name: true },
+        });
+        const uploadsDir = path.join(__dirname, "../uploads/");
+
+        if (file) {
+          await fsPromises.rename(
+            path.join(uploadsDir, file.name),
+            path.join(uploadsDir, newFileName)
+          );
+
+          const folderId = parseInt(req.body.folderId) ?? null;
+
+          await prisma.file.update({
+            where: {
+              id: fileId,
+            },
+            data: {
+              name: newFileName,
+              folderId: folderId,
+            },
+          });
+        }
+
+        res.redirect(`/files/${fileId}`);
+      } catch (err) {
+        console.error(err);
+        next();
+      }
+    }
+  },
+];
 
 const deleteFilePost = async (req, res, next) => {
   const id = parseInt(req.params.id);
