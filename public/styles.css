@@ -220,9 +220,7 @@ a.btn.active {
 }
 
 .center-content .btns-container {
-  /* display: flex; */
   justify-content: center;
-  /* gap: 1rem; */
 }
 
 /* ALERTS */
@@ -605,7 +603,6 @@ a.btn.active {
 
 .single-file-col .btns-container {
   display: flex;
-  /* align-items: flex-end; */
   justify-content: flex-end;
 }
 
@@ -631,7 +628,6 @@ label {
 }
 
 /* EDIT FILE FORM */
-
 .edit-file-form {
   display: flex;
   flex-direction: column;
@@ -643,21 +639,23 @@ label {
 }
 
 .edit-file-form h2 {
-  /* font-size: 2rem; */
   padding-bottom: 0.5rem;
   border-bottom: var(--border);
 }
 
 .edit-file-form input#fileName {
+  border: 2px solid var(--secondary-bg-color);
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.25rem;
   margin: 0.5 0rem 2rem;
   font-size: 2.5rem;
   font-weight: 600;
   background-color: var(--primary-bg-color);
   color: var(--primary-txt-color);
   font-family: var(--font-roboto);
-  border: 1px solid var(--primary-bg-color);
   outline: none;
 }
+
 .edit-file-form input#fileName:focus {
   border-color: var(--blue-hover);
 }
@@ -668,7 +666,6 @@ label {
 }
 
 .edit-file-form select {
-  /* border: var(--border); */
   font-family: var(--font-roboto);
   color: var(--primary-txt-color);
   background-color: var(--secondary-bg-color);
@@ -689,11 +686,6 @@ label {
   border: var(--border);
 }
 
-/* TODO: fix this */
-.edit-file-form select:focus {
-  /* border-color: var(--blue-hover); */
-}
-
 .edit-file-form select::picker-icon {
   color: #999;
   transition: 0.3s rotate ease-out;
@@ -707,14 +699,10 @@ label {
   display: flex;
   justify-content: flex-start;
   gap: 20px;
-
-  /* border: 2px solid #ddd; */
   border: var(--border);
   background: var(--primary-bg-color);
   color: var(--primary-txt-color);
   padding: 1rem 1.5rem;
-  /* transition: 0.4s; */
-  /* cursor: pointer; */
 }
 
 .edit-file-form select option:first-of-type {
