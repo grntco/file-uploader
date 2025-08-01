@@ -38,20 +38,20 @@ export function initEvents() {
 
   // EDIT FILE FORM
   const editFileBtn = document.getElementById("edit-file-btn");
-  const editCancelBtn = document.getElementById("edit-file-cancel-btn");
-  const editForm = document.getElementById("edit-file-form");
+  const editFileCancelBtn = document.getElementById("edit-file-cancel-btn");
+  const editFileForm = document.getElementById("edit-file-form");
   const fileInfo = document.getElementById("single-file-info");
 
-  if (editFileBtn && editForm && fileInfo) {
+  if (editFileBtn && editFileForm && fileInfo) {
     editFileBtn.addEventListener("click", () => {
-      show(editForm);
+      show(editFileForm);
       hide(fileInfo);
     });
   }
 
-  if (editCancelBtn && editForm && fileInfo) {
-    editCancelBtn.addEventListener("click", () => {
-      hide(editForm);
+  if (editFileCancelBtn && editFileForm && fileInfo) {
+    editFileCancelBtn.addEventListener("click", () => {
+      hide(editFileForm);
       show(fileInfo);
     });
   }
@@ -72,5 +72,25 @@ export function initEvents() {
 
   if (newFolderFormCancelBtn && newFolderForm) {
     newFolderFormCancelBtn.addEventListener("click", () => hide(newFolderForm));
+  }
+
+  // EDIT FOLDER FORM
+  const editFolderBtn = document.getElementById("edit-folder-btn");
+  const editFolderCancelBtn = document.getElementById("edit-folder-cancel-btn");
+  const editFolderForm = document.getElementById("edit-folder-form");
+  const tableHeading = document.getElementById("table-heading");
+
+  if (editFolderBtn && editFolderForm && tableHeading) {
+    editFolderBtn.addEventListener("click", () => {
+      show(editFolderForm);
+      hide(tableHeading);
+    });
+  }
+
+  if (editFolderCancelBtn && editFolderForm && tableHeading) {
+    editFolderCancelBtn.addEventListener("click", () => {
+      hide(editFolderForm);
+      show(tableHeading);
+    });
   }
 }

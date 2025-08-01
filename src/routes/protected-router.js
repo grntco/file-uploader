@@ -24,6 +24,7 @@ protectedRouter.post("/files/:id/delete", fileController.deleteFilePost);
 
 // Folders
 protectedRouter.post("/folders", folderController.createFolderPost);
+protectedRouter.post("/folders/:id/edit", folderController.editFolderPost);
 protectedRouter.post("/folders/:id/delete", folderController.deleteFolderPost);
 
 module.exports = protectedRouter;

@@ -90,6 +90,67 @@ const createFolderPost = [
   },
 ];
 
+const editFolderPost = [
+  validateFolder,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    const id = parseInt(req.params.id);
+
+    if (!id || isNaN(id)) {
+      req.flash("error", "Invalid folder ID.");
+      return res.redirect("/folders");
+    }
+
+    const folder = await prisma.folder.findFirst({
+      where: {
+        id: id,
+        userId: req.user.id,
+      },
+    });
+
+    if (!folder) {
+      req.flash(
+        "error",
+        "Folder not found or you don't have permission to edit it."
+      );
+      return res.redirect("/folders");
+    }
+
+    if (!errors.isEmpty()) {
+      console.log(errors);
+
+      const files = await prisma.file.findMany({
+        where: { folderId: id },
+        orderBy: [{ updatedAt: "desc" }, { createdAt: "desc" }],
+      });
+
+      const formattedFiles = await Promise.all(
+        files.map(async (file) => await formatFileData(file))
+      );
+
+      return res.status(400).render("files", {
+        title: folder.name,
+        folder: folder,
+        files: formattedFiles,
+        errors: errors.array(),
+      });
+    }
+
+    try {
+      await prisma.folder.update({
+        where: { id },
+        data: { name: req.body.name },
+      });
+      req.flash("success", "Folder name successfully edited.");
+    } catch (err) {
+      console.error("Error updating folder:", err);
+      req.flash("error", "An error occurred while updating the folder.");
+    }
+
+    res.redirect("/folders");
+  },
+];
+
 const deleteFolderPost = async (req, res, next) => {
   const id = parseInt(req.params.id);
 
@@ -132,5 +193,6 @@ module.exports = {
   allFoldersGet,
   singleFolderGet,
   createFolderPost,
+  editFolderPost,
   deleteFolderPost,
 };

@@ -14,53 +14,68 @@
                     </label>
                     <input type="file" id="upload-input" name="uploaded_files" accept="" multiple hidden required>
                 </form>
-                <% if (locals.files.length> 0) { %>
-                    <table class="contents-table">
-                        <thead>
-                            <tr>
-                                <th>Type</th>
-                                <th>Name</th>
-                                <th>Size</th>
-                                <th>Uploaded on</th>
-                                <th>Last modified</th>
-                                <th>Located in folder</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% locals.files.forEach((file)=> { %>
-                                <tr>
-                                    <td>
-                                        <a href="/files/<%= file.id %>" class="table-row-link"></a>
-                                        <img src="<%= file.icon %>" alt="image icon" class="icon">
-                                    </td>
-                                    <td>
-                                        <%= file.name %>
-                                    </td>
-                                    <td>
-                                        <%= file.displaySize %>
-                                    </td>
-                                    <td>
-                                        <%= file.displayCreatedAt %>
-                                    </td>
-                                    <td>
-                                        <%= file.displayUpdatedAt %>
-                                    </td>
-                                    <td>
-                                        <% if (file.folderId && file.folderName) { %>
-                                            <a href="/folders/<%= file.folderId %>" class="table-folder-link">
-                                                <%= file.folderName %>
-                                            </a>
-                                            <% } %>
-                                    </td>
-                                </tr>
-                                <% }); %>
-                        </tbody>
-                    </table>
-                    <% } else { %>
-                        <div class="no-results">
-                            <p>No files found</p>
+                <% if (locals.folder) { %>
+                    <form id="edit-folder-form" class="edit-folder-form hidden"
+                        action="/folders/<%= locals.folder.id %>/edit" method="POST" autocomplete="off">
+                        <h2>Edit Folder</h2>
+                        <div class="input-wrapper">
+                            <label for="folderName">Change name</label>
+                            <input type="text" id="folderName" name="name" placeholder="Your folder name"
+                                value="<%= locals.folder.name %>">
                         </div>
-                        <% }%>
+                        <div class="btns-container">
+                            <button type="reset" id="edit-folder-cancel-btn" class="btn">Cancel</button>
+                            <button type="submit" class="btn blue">Save Changes</button>
+                        </div>
+                    </form>
+                    <% } %>
+                        <% if (locals.files.length> 0) { %>
+                            <table class="contents-table">
+                                <thead>
+                                    <tr>
+                                        <th>Type</th>
+                                        <th>Name</th>
+                                        <th>Size</th>
+                                        <th>Uploaded on</th>
+                                        <th>Last modified</th>
+                                        <th>Located in folder</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% locals.files.forEach((file)=> { %>
+                                        <tr>
+                                            <td>
+                                                <a href="/files/<%= file.id %>" class="table-row-link"></a>
+                                                <img src="<%= file.icon %>" alt="image icon" class="icon">
+                                            </td>
+                                            <td>
+                                                <%= file.name %>
+                                            </td>
+                                            <td>
+                                                <%= file.displaySize %>
+                                            </td>
+                                            <td>
+                                                <%= file.displayCreatedAt %>
+                                            </td>
+                                            <td>
+                                                <%= file.displayUpdatedAt %>
+                                            </td>
+                                            <td>
+                                                <% if (file.folderId && file.folderName) { %>
+                                                    <a href="/folders/<%= file.folderId %>" class="table-folder-link">
+                                                        <%= file.folderName %>
+                                                    </a>
+                                                    <% } %>
+                                            </td>
+                                        </tr>
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                            <% } else { %>
+                                <div class="no-results">
+                                    <p>No files found</p>
+                                </div>
+                                <% }%>
         </div>
     </main>
     <%- include('./partials/footer.ejs')%>

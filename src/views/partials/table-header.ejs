@@ -20,6 +20,8 @@
                         class="icon">New Folder</button>
                 <% } %>
                     <% if (currentPath.match(/\/folders\/\d+/gi)) { %>
+                        <button id="edit-folder-btn" class="btn"><img src="/icons/edit.svg" alt="edit folder icon">Edit
+                            Folder</button>
                         <form action="/folders/<%= locals.folder.id %>/delete" method="POST">
                             <button type="submit" class="btn red"><img src="/icons/trash.svg" alt="trash icon"
                                     class="icon">
@@ -32,7 +34,7 @@
                                 <% } %>
         </div>
     </nav>
-    <div class="table-heading">
+    <div id="table-heading" class="table-heading">
         <h2>
             <%= locals.searchText ? 'Files matching: "' + locals.searchText + '"' : locals.title %>
         </h2>
