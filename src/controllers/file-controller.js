@@ -80,10 +80,6 @@ const singleFileGet = async (req, res, next) => {
   res.render("single-file", { title: file.name, file: formattedFile, folders });
 };
 
-const uploadFilesGet = (req, res, next) => {
-  res.render("upload", { title: "Upload Files" });
-};
-
 const downloadFileGet = async (req, res, next) => {
   const id = parseInt(req.params.id);
 
@@ -227,7 +223,6 @@ module.exports = {
   allFilesGet,
   searchFilesGet,
   singleFileGet,
-  uploadFilesGet,
   downloadFileGet,
   uploadFilesPost,
   singleFileEditPost,
