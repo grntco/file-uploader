@@ -5,28 +5,52 @@ const validateFolder = require("../validation/folder-validator");
 const { validationResult } = require("express-validator");
 
 const allFoldersGet = async (req, res, next) => {
-  const folders = await prisma.folder.findMany({
-    where: { userId: req.user.id },
-  });
+  try {
+    const folders = await prisma.folder.findMany({
+      where: { userId: req.user.id },
+    });
 
-  const formattedFolders = await Promise.all(
-    folders.map(async (folder) => await formatFolderData(folder))
-  );
+    const formattedFolders = await Promise.all(
+      folders.map(async (folder) => await formatFolderData(folder))
+    );
 
-  res.render("folders", {
-    title: "All Folders",
-    folders: formattedFolders,
-    errors: [],
-  });
+    res.render("folders", {
+      title: "All Folders",
+      folders: formattedFolders,
+      errors: [],
+    });
+  } catch (err) {
+    console.error(
+      "Error: Unable to load folders for user with id ",
+      req.user.id,
+      ": ",
+      err
+    );
+
+    res.render("folders", {
+      title: "All Folders",
+      folders: [],
+      errors: [
+        "Unable to load your folders at this time. Please refresh the page or try again later.",
+      ],
+    });
+  }
 };
 
 const singleFolderGet = async (req, res, next) => {
   const folderId = parseInt(req.params.id);
 
-  if (folderId) {
-    const folder = await prisma.folder.findUnique({ where: { id: folderId } });
+  if (!folderId || isNaN(folderId)) {
+    req.flash("error", "Invalid folder id.");
+    return res.redirect("/folders");
+  }
 
-    if (!folder || folder.userId !== req.user.id) {
+  try {
+    const folder = await prisma.folder.findUnique({
+      where: { id: folderId, userId: req.user.id },
+    });
+
+    if (!folder) {
       return res.status(403).render("403", { title: "403: Forbidden" });
     }
 
@@ -51,6 +75,22 @@ const singleFolderGet = async (req, res, next) => {
       folder: folder,
       files: formattedFiles,
       errors: [],
+    });
+  } catch (err) {
+    console.error(
+      "Error: Unable to load contents for folder with id ",
+      folderId,
+      ": ",
+      err
+    );
+
+    // TODO: how to get all folders?
+    res.render("folders", {
+      title: "All Folders",
+      folders: [],
+      errors: [
+        "Unable to load contents for that folder at this time. Please refresh the page or try again later.",
+      ],
     });
   }
 };
@@ -78,14 +118,22 @@ const createFolderPost = [
       });
     }
 
-    const newFolder = await prisma.folder.create({
-      data: {
-        name: req.body.name,
-        userId: req.user.id,
-      },
-    });
+    try {
+      await prisma.folder.create({
+        data: {
+          name: req.body.name,
+          userId: req.user.id,
+        },
+      });
 
-    console.log(newFolder);
+      req.flash("success", `Successfully created new folder ${req.body.name}.`);
+    } catch (err) {
+      console.error("Error: Unable to create new folder.");
+      req.flash(
+        "error",
+        "Unable to create a new folder at this time. Please try again later."
+      );
+    }
     res.redirect("/folders");
   },
 ];
@@ -143,7 +191,7 @@ const editFolderPost = [
       });
       req.flash("success", "Folder name successfully edited.");
     } catch (err) {
-      console.error("Error updating folder:", err);
+      console.error("Error: Unable to update folder: ", err);
       req.flash("error", "An error occurred while updating the folder.");
     }
 
@@ -174,19 +222,17 @@ const deleteFolderPost = async (req, res, next) => {
     return res.redirect("/folders");
   }
 
-  if (id) {
-    try {
-      await prisma.folder.delete({ where: { id } });
-      req.flash(
-        "success",
-        "Folder successfully deleted. Any files in that folder are still safe."
-      );
-    } catch (err) {
-      console.error("Error deleting folder: ", err);
-      req.flash("error", "An error occurred while deleting the folder.");
-    }
-    res.redirect("/folders");
+  try {
+    await prisma.folder.delete({ where: { id } });
+    req.flash(
+      "success",
+      "Folder successfully deleted. Any files in that folder are still safe."
+    );
+  } catch (err) {
+    console.error("Error deleting folder: ", err);
+    req.flash("error", "An error occurred while deleting the folder.");
   }
+  res.redirect("/folders");
 };
 
 module.exports = {
